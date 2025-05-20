@@ -83,3 +83,42 @@
     height: 100px;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .hideOnMobile {
+    display: none;
+  }
+
+  .menu-button {
+    display: block;
+  }
+
+  .nav-sidebar {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #fff;
+    flex-direction: column;
+    align-items: start;
+    padding: 20px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+  }
+
+  .nav-sidebar li {
+    margin: 10px 0;
+  }
+}
+
+@media (min-width: 769px) {
+  .nav-sidebar {
+    display: none !important;
+  }
+
+  .menu-button {
+    display: none;
+  }
+}
