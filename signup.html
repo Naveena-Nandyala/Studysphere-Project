@@ -122,6 +122,12 @@
         sendEmailVerification,
         signInWithEmailAndPassword,
       } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+      import {
+        getFirestore,
+        doc,
+        setDoc,
+        getDoc,
+      } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyBc6coBEXCse3FhaYK6h-31wcsDlwKUnzc",
@@ -134,10 +140,11 @@
 
       const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
+      const db = getFirestore(app);
 
       document
         .getElementById("registrationForm")
-        .addEventListener("submit", function (e) {
+        .addEventListener("submit", async function (e) {
           e.preventDefault();
 
           const username = document.getElementById("regUsername").value;
@@ -175,37 +182,56 @@
           }
 
           // Register in Firebase
-          createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-              const user = userCredential.user;
-              sendEmailVerification(user)
-                .then(() => {
-                  // Add to local storage list
-                  users.push(userData);
-                  localStorage.setItem("users", JSON.stringify(users));
-                  if (role === "tutor") {
-                    alert(
-                      "Registration successful! A verification email has been sent to your email address. Please verify to continue."
-                    );
-                  } else if (role === "student") {
-                    alert(
-                      "Registration successful! A verification email has been sent to your email address. Please verify to continue."
-                    );
-                  }
-                  // alert(
-                  //   "Registration successful! A verification email has been sent to your email address. Please verify to continue."
-                  // );
-                  window.location.href = "login.html";
-                })
-                .catch((error) => {
-                  alert("Failed to send verification email: " + error.message);
-                });
-            })
-            .catch((error) => {
-              console.log("Firebase Registration Failed:", error);
-              alert("Registration Failed: " + error.message);
+          try {
+            const userCredential = await createUserWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+            // .then((userCredential) => {
+            const user = userCredential.user;
+            await sendEmailVerification(user);
+            await setDoc(doc(db, "users", user.uid), {
+              username,
+              email,
+              role,
+              idNumber,
             });
+            alert(
+              "Registration successful! A verification email has been sent to your email address. Please verify to continue."
+            );
+            window.location.href = "login.html";
+          } catch (error) {
+            alert("Registration failed: " + error.message);
+          }
         });
+      // .then(() => {
+      //   // Add to local storage list
+      //   users.push(userData);
+      //   localStorage.setItem("users", JSON.stringify(users));
+      //   if (role === "tutor") {
+      //     alert(
+      //       "Registration successful! A verification email has been sent to your email address. Please verify to continue."
+      //     );
+      //   } else if (role === "student") {
+      //     alert(
+      //       "Registration successful! A verification email has been sent to your email address. Please verify to continue."
+      //     );
+      //   }
+      // alert(
+      //   "Registration successful! A verification email has been sent to your email address. Please verify to continue."
+      // );
+      //           window.location.href = "login.html";
+      //         })
+      //         .catch((error) => {
+      //           alert("Failed to send verification email: " + error.message);
+      //         });
+      //     })
+      //     .catch((error) => {
+      //       console.log("Firebase Registration Failed:", error);
+      //       alert("Registration Failed: " + error.message);
+      //     });
+      // });
       document
         .getElementById("loginForm")
         .addEventListener("submit", function (e) {
