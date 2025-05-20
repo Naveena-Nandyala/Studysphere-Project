@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="responsive.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <!-- Boxicons CSS -->
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- <div class="container" id="home"> -->
+    <nav>
+      <div class="navbar">
+        <img src="images/logo.jpg" class="logo" alt="Logo Image" />
+        <ul class="nav-links">
+          <li class="hideOnMobile"><a href="#home">HOME</a></li>
+          <li class="hideOnMobile"><a href="#about">ABOUT</a></li>
+          <li class="hideOnMobile">
+            <a href="signup.html" target="_self">SIGNUP</a>
+          </li>
+          <li class="hideOnMobile">
+            <a href="login.html" target="_self">LOGIN</a>
+          </li>
+          <li class="menu-button" onclick="showSidebar()">
+            <a href="#" title="menu"><i class="bx bx-menu" id="btn"></i></a>
+          </li>
+          <!-- <li onclick="showSidebar()"><a href="<span class="material-symbols-outli> menu </span></li> -->
+        </ul>
+      </div>
+      <!-- <img src="images/logo.jpg" class="logo" alt="Logo Image" />  -->
+      <ul class="nav-sidebar">
+        <li>
+          <a href="#" title="sidebar-hide" onclick="hideSidebar()"
+            ><img
+              src="./images/close_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
+              alt=""
+          /></a>
+        </li>
+        <li><a href="#home">HOME</a></li>
+        <li><a href="#about">ABOUT</a></li>
+        <li><a href="signup.html" target="_self">SIGNUP</a></li>
+        <li><a href="login.html" target="_self">LOGIN</a></li>
+      </ul>
+    </nav>
+    <div class="container" id="home">
+      <div class="row">
+        <div class="col">
+          <h1 id="title" class="animate__animated animate__heartBeat">
+            STUDYSPHERE
+          </h1>
+          <p id="caption" class="animate__animated animate__heartBeat">
+            Where Knowledge Meets Opportunity
+          </p>
+        </div>
+        <div class="col">
+          <div class="card card1"></div>
+          <div class="card card2"></div>
+          <div class="card card3"></div>
+          <div class="card card4"></div>
+        </div>
+      </div>
+    </div>
+    <!-- About Section Starts -->
+    <section class="about" id="about">
+      <div class="circle right"></div>
+      <div class="content">
+        <div class="textBox text">
+          <h2>ABOUT THE <span>STUDYSPHERE</span></h2>
+          <p>
+            StudySphere is a student-friendly digital platform designed to
+            simplify access to academic materials. Our mission is to create a
+            bridge between tutors and students by providing a centralized space
+            where subject-specific resources can be uploaded and accessed
+            anytime, anywhere.
+          </p>
+          <a href="about.html" target="_self">Learn More</a>
+        </div>
+        <div class="imgBox image">
+          <img src="./images/image1.png" class="study" alt="" />
+        </div>
+      </div>
+    </section>
+    <!-- About Section ends -->
+    <script>
+      function showSidebar() {
+        const sidebar = document.querySelector(".nav-sidebar");
+        sidebar.style.display = "flex";
+      }
+      function hideSidebar() {
+        const sidebar = document.querySelector(".nav-sidebar");
+        sidebar.style.display = "none";
+      }
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>

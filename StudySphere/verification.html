@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verification</title>
+    <style>
+      body {
+        display: flex;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+      .left {
+        width: 40%;
+        padding: 50px;
+        background-color: #f0f0f0;
+      }
+      .right {
+        width: 60%;
+        padding: 50px;
+      }
+      .option {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="left">
+      <h2>Are you a tutor or student?</h2>
+      <div class="option">
+        <label><input type="radio" name="role" value="tutor" /> Tutor</label
+        ><br />
+        <label
+          ><input type="radio" name="role" value="student" /> Student</label
+        >
+      </div>
+    </div>
+    <div class="right" id="formContainer">
+      <!-- Form will be loaded here -->
+    </div>
+
+    <script>
+      document.querySelectorAll('input[name="role"]').forEach((radio) => {
+        radio.addEventListener("change", function () {
+          const role = this.value;
+          const container = document.getElementById("formContainer");
+
+          fetch(`${role}_signup.html`)
+            .then((res) => res.text())
+            .then((html) => {
+              container.innerHTML = html;
+              attachFormHandler(role);
+            });
+        });
+      });
+
+      function attachFormHandler(role) {
+        const form = document.querySelector(`#${role}Form`);
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const data = {};
+          [...form.elements].forEach((el) => {
+            if (el.name) data[el.name] = el.value;
+          });
+          localStorage.setItem(`${role}Data`, JSON.stringify(data));
+          alert(
+            `${
+              role.charAt(0).toUpperCase() + role.slice(1)
+            } data saved to localStorage!`
+          );
+          form.reset();
+        });
+      }
+    </script>
+  </body>
+</html>

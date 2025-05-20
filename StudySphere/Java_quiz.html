@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        background: #001e4d;
+        height: 100vh;
+        max-height: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <h1>Java Quiz</h1>
+      <div class="quiz">
+        <h2 class="question">Question goes here</h2>
+        <div class="answer-buttons">
+          <button class="quiz-btn">Answer 1</button>
+          <button class="quiz-btn">Answer 2</button>
+          <button class="quiz-btn">Answer 3</button>
+          <button class="quiz-btn">Answer 4</button>
+        </div>
+        <button class="next-btn">Next</button>
+      </div>
+    </div>
+    <script>
+      const questions = [
+        {
+          question: "Who invented Java Programming?",
+          answers: [
+            {
+              text: "Guido van Rossum",
+              correct: false,
+            },
+            {
+              text: "James Gosling",
+              correct: true,
+            },
+            {
+              text: "Dennis Ritchie",
+              correct: false,
+            },
+            { text: "Bjarne Stroustrup", correct: false },
+          ],
+        },
+        {
+          question: "Which statement is true about Java?",
+          answers: [
+            {
+              text: "Java is a sequence-dependent programming language",
+              correct: false,
+            },
+            {
+              text: "Java is a code dependent programming language",
+              correct: false,
+            },
+            {
+              text: "Java is a platform-dependent programming language",
+              correct: false,
+            },
+            {
+              text: "Java is a platform-independent programming language",
+              correct: true,
+            },
+          ],
+        },
+        {
+          question: "Which one of the following is not a Java feature?",
+          answers: [
+            { text: "Object-Oriented", correct: false },
+            { text: "Use of Pointers", correct: true },
+            { text: "Portable", correct: false },
+            { text: "Dynamic and Extensible", correct: false },
+          ],
+        },
+        {
+          question:
+            "Which of these cannot be used for a variable name in Java?",
+          answers: [
+            { text: "Identifier & Keyword", correct: false },
+            { text: "Identifier", correct: false },
+            { text: "Keyword", correct: true },
+            { text: "None of the mentioned", correct: false },
+          ],
+        },
+        {
+          question: "Which of the following is not an OOPS concept in Java?",
+          answers: [
+            {
+              text: "Polymorphism",
+              correct: false,
+            },
+            {
+              text: "Inheritance",
+              correct: false,
+            },
+            {
+              text: "Compilation",
+              correct: true,
+            },
+            {
+              text: "Encapsulation",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question: "What is not the use of “this” keyword in Java?",
+          answers: [
+            {
+              text: "Referring to the instance variable when a local variable has the same name",
+              correct: false,
+            },
+            {
+              text: "Passing itself to the method of the same class",
+              correct: true,
+            },
+            { text: "Passing itself to another method", correct: false },
+            {
+              text: "Calling another constructor in constructor chaining",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question:
+            "Which of the following is a type of polymorphism in Java Programming?",
+          answers: [
+            { text: "Multiple polymorphism", correct: false },
+            { text: "Compile time polymorphism", correct: true },
+            { text: "Multilevel polymorphism", correct: false },
+            { text: "Execution time polymorphism", correct: false },
+          ],
+        },
+        {
+          question: "Which exception is thrown when java is out of memory?",
+          answers: [
+            {
+              text: "MemoryError",
+              correct: false,
+            },
+            {
+              text: "OutOfMemoryError",
+              correct: true,
+            },
+            {
+              text: "MemoryOutOfBoundsException",
+              correct: false,
+            },
+            { text: "MemoryFullException", correct: false },
+          ],
+        },
+        {
+          question:
+            "Which of the following is a superclass of every class in Java?",
+          answers: [
+            {
+              text: "ArrayList",
+              correct: false,
+            },
+            {
+              text: "Abstract Class",
+              correct: false,
+            },
+            {
+              text: "Object Class",
+              correct: true,
+            },
+            {
+              text: "String",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question: "Which of these are selection statements in Java?",
+          answers: [
+            { text: "break", correct: false },
+            { text: "continue", correct: false },
+            { text: "for()", correct: false },
+            { text: "if()", correct: true },
+          ],
+        },
+      ];
+
+      const questionElement = document.querySelector(".question");
+      const answerButtons = document.querySelector(".answer-buttons");
+      const nextButton = document.querySelector(".next-btn");
+
+      let currentQuestionIndex = 0;
+      let score = 0;
+
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+
+      function startQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        nextButton.innerHTML = "Next";
+        shuffleArray(questions);
+        questions.forEach((q) => shuffleArray(q.answers));
+        showQuestion();
+      }
+
+      function showQuestion() {
+        resetState();
+        let currentQuestion = questions[currentQuestionIndex];
+        let questionNo = currentQuestionIndex + 1;
+        questionElement.innerHTML =
+          questionNo + ". " + currentQuestion.question;
+        answerButtons.innerHTML = "";
+        currentQuestion.answers.forEach((answer) => {
+          const button = document.createElement("button");
+          button.innerText = answer.text;
+          button.classList.add("quiz-btn");
+          answerButtons.appendChild(button);
+          if (answer.correct) {
+            button.dataset.correct = answer.correct;
+          }
+          button.addEventListener("click", selectAnswer);
+        });
+      }
+
+      function resetState() {
+        nextButton.style.display = "none";
+        while (answerButtons.firstChild) {
+          answerButtons.removeChild(answerButtons.firstChild);
+        }
+      }
+
+      function selectAnswer(e) {
+        const selectedBtn = e.target;
+        const isCorrect = selectedBtn.dataset.correct === "true";
+        if (isCorrect) {
+          selectedBtn.classList.add("correct");
+          score++;
+        } else {
+          selectedBtn.classList.add("incorrect");
+        }
+        Array.from(answerButtons.children).forEach((button) => {
+          if (button.dataset.correct === "true") {
+            button.classList.add("correct");
+          }
+          button.disabled = "true";
+        });
+        nextButton.style.display = "block";
+      }
+
+      function showScore() {
+        resetState();
+        questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`;
+        nextButton.innerHTML = "Play Again";
+        nextButton.style.display = "block";
+      }
+
+      function handleNextButton() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+          showQuestion();
+        } else {
+          showScore();
+        }
+      }
+      nextButton.addEventListener("click", () => {
+        if (currentQuestionIndex < questions.length) {
+          handleNextButton();
+        } else {
+          startQuiz();
+        }
+      });
+      startQuiz();
+    </script>
+  </body>
+</html>

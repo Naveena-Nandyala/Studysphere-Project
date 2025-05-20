@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive web design</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="form-container">
+      <div class="container2">
+        <div class="form-box login">
+          <form id="loginForm">
+            <h2>Login</h2>
+            <div class="input-box" id="emailBox">
+              <input
+                type="email"
+                id="loginEmail"
+                placeholder="Email"
+                required
+              />
+              <i class="bx bxs-envelope"></i>
+            </div>
+            <div class="input-box" id="passwordBox">
+              <input
+                type="password"
+                id="loginPassword"
+                placeholder="Password"
+                required
+              />
+              <i class="bx bxs-lock-alt"></i>
+            </div>
+            <div class="forgot-link">
+              <a href="forgot.html">Forgot password?</a>
+            </div>
+            <button type="submit" class="btn">Login</button>
+            <!-- <button type="submit" class="guest" onclick="redirectToHome()">
+              Guest
+            </button> -->
+          </form>
+        </div>
+
+        <div class="form-box register">
+          <form id="registrationForm">
+            <h2>Registration</h2>
+            <div class="input-box">
+              <input
+                type="text"
+                id="regUsername"
+                placeholder="Username"
+                required
+              />
+              <i class="bx bxs-user"></i>
+            </div>
+            <div class="radio-group">
+              <h4>Tutor or Student :</h4>
+              <label>
+                <input
+                  type="radio"
+                  id="tutor"
+                  name="role"
+                  value="tutor"
+                  onclick="toggleFields()"
+                />Tutor</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  id="student"
+                  name="role"
+                  value="student"
+                  onclick="toggleFields()"
+                />Student</label
+              >
+            </div>
+            <div class="input-box" id="idBox">
+              <input type="text" id="regId" placeholder="ID Number" required />
+            </div>
+            <div class="input-box" id="subjectBox">
+              <input type="text" id="regSub" placeholder="Subject" required />
+            </div>
+            <div class="input-box" id="emailBox">
+              <input type="email" id="regEmail" placeholder="Email" required />
+              <i class="bx bxs-envelope"></i>
+            </div>
+            <div class="input-box" id="passwordBox">
+              <input
+                type="password"
+                id="regPassword"
+                placeholder="Password"
+                required
+              />
+              <i class="bx bxs-lock-alt"></i>
+            </div>
+            <button type="submit" class="btn" id="register">Register</button>
+          </form>
+        </div>
+
+        <div class="toggle-box">
+          <div class="toggle-panel toggle-left">
+            <h2>Hello, Welcome!</h2>
+            <p>Don't have an account?</p>
+            <button class="btn register-btn">Register</button>
+          </div>
+          <div class="toggle-panel toggle-right">
+            <h2>Welcome Back!</h2>
+            <p>Already have an account?</p>
+            <button class="btn login-btn">Login</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+      import {
+        getAuth,
+        createUserWithEmailAndPassword,
+        sendEmailVerification,
+        signInWithEmailAndPassword,
+      } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBc6coBEXCse3FhaYK6h-31wcsDlwKUnzc",
+        authDomain: "studysphere-d6908.firebaseapp.com",
+        projectId: "studysphere-d6908",
+        storageBucket: "studysphere-d6908.firebasestorage.app",
+        messagingSenderId: "595011447089",
+        appId: "1:595011447089:web:540703d6548990a228a810",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+
+      document
+        .getElementById("registrationForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const username = document.getElementById("regUsername").value;
+          const role = document.querySelector(
+            'input[name="role"]:checked'
+          )?.value;
+          let idNumber = "";
+          if (role === "tutor") {
+            idNumber = document.getElementById("regId").value;
+          }
+          const email = document.getElementById("regEmail").value;
+          const password = document.getElementById("regPassword").value;
+
+          // Fetch all users from local storage (if any)
+          let users = JSON.parse(localStorage.getItem("users")) || [];
+          let inputEmail = document.getElementById("regEmail").value;
+
+          let emailExists = users.some((user) => user.email === inputEmail);
+
+          if (emailExists) {
+            alert("Email already exists. Go to login page.");
+            return;
+          }
+
+          // Prepare user data
+          const userData = {
+            username,
+            role,
+            email,
+            password,
+          };
+
+          if (role === "tutor") {
+            userData.idNumber = idNumber;
+          }
+
+          // Register in Firebase
+          createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+              const user = userCredential.user;
+              sendEmailVerification(user)
+                .then(() => {
+                  // Add to local storage list
+                  users.push(userData);
+                  localStorage.setItem("users", JSON.stringify(users));
+                  if (role === "tutor") {
+                    alert(
+                      "Registration successful! A verification email has been sent to your email address. Please verify to continue."
+                    );
+                  } else if (role === "student") {
+                    alert(
+                      "Registration successful! A verification email has been sent to your email address. Please verify to continue."
+                    );
+                  }
+                  // alert(
+                  //   "Registration successful! A verification email has been sent to your email address. Please verify to continue."
+                  // );
+                  window.location.href = "login.html";
+                })
+                .catch((error) => {
+                  alert("Failed to send verification email: " + error.message);
+                });
+            })
+            .catch((error) => {
+              console.log("Firebase Registration Failed:", error);
+              alert("Registration Failed: " + error.message);
+            });
+        });
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const email = document.getElementById("loginEmail").value;
+          const password = document.getElementById("loginPassword").value;
+
+          // Try Firebase login
+          signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+              const user = userCredential.user;
+              // Firebase login successful, now check the role
+              const registeredUsers =
+                JSON.parse(localStorage.getItem("users")) || [];
+
+              const foundUser = registeredUsers.find(
+                (user) => user.email === email
+              );
+
+              if (foundUser) {
+                localStorage.setItem("currentUser", foundUser.email);
+                if (foundUser.role === "tutor") {
+                  window.location.href = "tutor_dashboard.html";
+                } else if (foundUser.role === "student") {
+                  window.location.href = "student_dashboard.html";
+                } else {
+                  alert("User role not recognized.");
+                }
+              } else {
+                alert("No role information found in local storage.");
+              }
+            })
+            .catch((error) => {
+              const registeredUsers =
+                JSON.parse(localStorage.getItem("users")) || [];
+
+              const foundUser = registeredUsers.find(
+                (user) => user.email === email && user.password === password
+              );
+
+              if (foundUser) {
+                localStorage.setItem("currentUser", foundUser.email);
+                if (foundUser.role === "tutor") {
+                  window.location.href = "tutor_dashboard.html";
+                } else if (foundUser.role === "student") {
+                  window.location.href = "student_dashboard.html";
+                } else {
+                  alert("User role not recognized.");
+                }
+              } else {
+                alert("Invalid login credentials. Please try again.");
+              }
+            });
+        });
+    </script>
+
+    <script>
+      const container = document.querySelector(".container2");
+      const registerBtn = document.querySelector(".register-btn");
+      const loginBtn = document.querySelector(".login-btn");
+
+      registerBtn.addEventListener("click", () => {
+        container.classList.add("active");
+      });
+
+      loginBtn.addEventListener("click", () => {
+        container.classList.remove("active");
+      });
+
+      function toggleFields() {
+        const isTutor = document.getElementById("tutor").checked;
+        const regId = document.getElementById("regId");
+        const regSub = document.getElementById("regSub");
+        if (isTutor) {
+          regId.parentElement.style.display = "block";
+          regSub.parentElement.style.display = "block";
+          regId.required = true;
+          regSub.required = true;
+
+          regId.disabled = false;
+          regSub.disabled = false;
+        } else {
+          regId.parentElement.style.display = "none";
+          regSub.parentElement.style.display = "none";
+
+          regId.required = false;
+          regSub.required = false;
+
+          regId.disabled = true;
+          regSub.disabled = true;
+        }
+      }
+
+      // Hide ID field by default
+      window.onload = function () {
+        document.getElementById("idBox").style.display = "none";
+        document.getElementById("subjectBox").style.display = "none";
+
+        // Redirect to website on login
+        // const loginForm = document.querySelector(".login form");
+        // loginForm.addEventListener("submit", function (e) {
+        //   e.preventDefault();
+        //   window.location.href = "webpage.html";
+        // });
+      };
+    </script>
+  </body>
+</html>

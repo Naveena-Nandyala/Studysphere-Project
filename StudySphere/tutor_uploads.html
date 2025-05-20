@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload Study Materials</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        /* font-family: Arial, sans-serif; */
+        padding: 20px;
+        background: linear-gradient(to right, #3ed1dc, #5b86e5);
+      }
+      /* input,
+      button {
+        padding: 8px;
+        margin: 5px 0;
+      } */
+      /* label {
+        display: block;
+        margin-top: 10px;
+      } */
+    </style>
+  </head>
+  <body>
+    <form id="uploadForm">
+      <h2 id="tutor-heading">UPLOAD STUDY MATERIALS</h2>
+      <!-- <div class="uploadLabel">
+        <label for="class">Class:</label>
+        <input type="text" id="classInput" required placeholder="Enter the Class"/>
+      </div> -->
+      <div class="uploadLabel">
+        <label for="subject">Subject:</label>
+        <input
+          type="text"
+          id="subjectInput"
+          required
+          placeholder="Enter Subject"
+        />
+      </div>
+      <div class="uploadLabel">
+        <label for="link">PDF Link:</label>
+        <input
+          type="url"
+          id="pdfInput"
+          required
+          placeholder="Enter the PDF Link"
+        />
+      </div>
+
+      <button type="submit" id="upload-btn">Upload</button>
+    </form>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+        serverTimestamp,
+      } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBc6coBEXCse3FhaYK6h-31wcsDlwKUnzc",
+        authDomain: "studysphere-d6908.firebaseapp.com",
+        projectId: "studysphere-d6908",
+        storageBucket: "studysphere-d6908.firebasestorage.app",
+        messagingSenderId: "595011447089",
+        appId: "1:595011447089:web:540703d6548990a228a810",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const auth = getAuth(app);
+
+      let currentUserEmail = null;
+
+      // Wait for authentication
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          currentUserEmail = user.email;
+        } else {
+          alert("Please login to upload materials.");
+          // Optionally redirect to login
+        }
+      });
+
+      const uploadForm = document.getElementById("uploadForm");
+
+      uploadForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        if (!currentUserEmail) {
+          alert("User not authenticated.");
+          return;
+        }
+
+        const classInput = document.getElementById("classInput").value.trim();
+        const subjectInput = document
+          .getElementById("subjectInput")
+          .value.trim();
+        const pdfLink = document.getElementById("pdfInput").value.trim();
+
+        try {
+          await addDoc(collection(db, "study_materials"), {
+            class: classInput,
+            subject: subjectInput,
+            pdfURL: pdfLink,
+            uploadedBy: currentUserEmail,
+            uploadedAt: serverTimestamp(),
+          });
+          alert("Material uploaded successfully.");
+          uploadForm.reset();
+        } catch (error) {
+          console.error("Upload failed:", error);
+          alert("Error uploading material.");
+        }
+      });
+    </script>
+  </body>
+</html>

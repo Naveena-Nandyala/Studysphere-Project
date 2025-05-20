@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        background: #001e4d;
+        height: 100vh;
+        max-height: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <h1>CSS Quiz</h1>
+      <div class="quiz">
+        <h2 class="question">Question goes here</h2>
+        <div class="answer-buttons">
+          <button class="quiz-btn">Answer 1</button>
+          <button class="quiz-btn">Answer 2</button>
+          <button class="quiz-btn">Answer 3</button>
+          <button class="quiz-btn">Answer 4</button>
+        </div>
+        <button class="next-btn">Next</button>
+      </div>
+    </div>
+    <script>
+      const questions = [
+        {
+          question: " What is CSS?",
+          answers: [
+            { text: "CSS is a style sheet language", correct: false },
+            {
+              text: "CSS is designed to separate the presentation and content, including layout, colors, and fonts",
+              correct: false,
+            },
+            {
+              text: "CSS is the language used to style the HTML documents",
+              correct: false,
+            },
+            { text: "All of the mentioned", correct: true },
+          ],
+        },
+        {
+          question:
+            "Which of the following CSS selectors are used to specify a group of elements?",
+          answers: [
+            { text: "tag", correct: false },
+            { text: "id", correct: false },
+            { text: "class", correct: true },
+            { text: "both class and tag", correct: false },
+          ],
+        },
+        {
+          question:
+            "Which of the following type of HTML tag is used to define an internal style sheet?",
+          answers: [
+            { text: "<script>", correct: false },
+            { text: "<link>", correct: false },
+            { text: "<class>", correct: false },
+            { text: "<style>", correct: true },
+          ],
+        },
+        {
+          question:
+            "Which of the following CSS property is used to make the text bold?",
+          answers: [
+            { text: "text-decoration: bold", correct: false },
+            { text: "font-weight: bold", correct: true },
+            { text: "font-style: bold", correct: false },
+            { text: "text-align: bold", correct: false },
+          ],
+        },
+        {
+          question:
+            "Which of the following is the correct syntax to link an external style sheet in the HTML file?",
+          answers: [
+            {
+              text: "<link rel=”stylesheet” href=”style.css” />",
+              correct: true,
+            },
+            {
+              text: "<link rel=”stylesheet” src=”style.css” />",
+              correct: false,
+            },
+            {
+              text: "<style rel=”stylesheet” src=”style.css” />",
+              correct: false,
+            },
+            {
+              text: "<style rel=”stylesheet” link=”style.css” />",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question:
+            "Which of the following CSS property can be used to set the image as a border instead of the border style?",
+          answers: [
+            { text: "background-image-source", correct: false },
+            {
+              text: "background-image",
+              correct: false,
+            },
+            { text: "border-image-source", correct: true },
+            { text: "border-image", correct: false },
+          ],
+        },
+        {
+          question:
+            " Which of the following CSS property specifies the look and design of an outline?",
+          answers: [
+            { text: "outline-style", correct: true },
+            { text: "outline-format", correct: false },
+            { text: "outline-font", correct: false },
+            { text: "none of the mentioned", correct: false },
+          ],
+        },
+        {
+          question:
+            "Which of the following CSS Property controls how an element is positioned?",
+          answers: [
+            {
+              text: "static",
+              correct: false,
+            },
+            {
+              text: "position",
+              correct: true,
+            },
+            {
+              text: "fix",
+              correct: false,
+            },
+            { text: "set", correct: false },
+          ],
+        },
+        {
+          question:
+            "Which of the following property is used to control the flow and formatting of text?",
+          answers: [
+            {
+              text: "white-space",
+              correct: true,
+            },
+            {
+              text: "text-shadow",
+              correct: false,
+            },
+            {
+              text: "text-decoration",
+              correct: false,
+            },
+            {
+              text: "text-transform",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question:
+            "Which of the following css propery defines a relationship between bound elements(s) and some code or content?",
+          answers: [
+            { text: "@import", correct: false },
+            { text: "@media", correct: false },
+            { text: "url-bind", correct: false },
+            { text: "binding", correct: true },
+          ],
+        },
+      ];
+
+      const questionElement = document.querySelector(".question");
+      const answerButtons = document.querySelector(".answer-buttons");
+      const nextButton = document.querySelector(".next-btn");
+
+      let currentQuestionIndex = 0;
+      let score = 0;
+
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+
+      function startQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        nextButton.innerHTML = "Next";
+        shuffleArray(questions);
+        questions.forEach((q) => shuffleArray(q.answers));
+        showQuestion();
+      }
+
+      function showQuestion() {
+        resetState();
+        let currentQuestion = questions[currentQuestionIndex];
+        let questionNo = currentQuestionIndex + 1;
+        questionElement.innerHTML =
+          questionNo + ". " + currentQuestion.question;
+        answerButtons.innerHTML = "";
+        currentQuestion.answers.forEach((answer) => {
+          const button = document.createElement("button");
+          button.innerText = answer.text;
+          button.classList.add("quiz-btn");
+          answerButtons.appendChild(button);
+          if (answer.correct) {
+            button.dataset.correct = answer.correct;
+          }
+          button.addEventListener("click", selectAnswer);
+        });
+      }
+
+      function resetState() {
+        nextButton.style.display = "none";
+        while (answerButtons.firstChild) {
+          answerButtons.removeChild(answerButtons.firstChild);
+        }
+      }
+
+      function selectAnswer(e) {
+        const selectedBtn = e.target;
+        const isCorrect = selectedBtn.dataset.correct === "true";
+        if (isCorrect) {
+          selectedBtn.classList.add("correct");
+          score++;
+        } else {
+          selectedBtn.classList.add("incorrect");
+        }
+        Array.from(answerButtons.children).forEach((button) => {
+          if (button.dataset.correct === "true") {
+            button.classList.add("correct");
+          }
+          button.disabled = "true";
+        });
+        nextButton.style.display = "block";
+      }
+
+      function showScore() {
+        resetState();
+        questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`;
+        nextButton.innerHTML = "Play Again";
+        nextButton.style.display = "block";
+      }
+
+      function handleNextButton() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+          showQuestion();
+        } else {
+          showScore();
+        }
+      }
+      nextButton.addEventListener("click", () => {
+        if (currentQuestionIndex < questions.length) {
+          handleNextButton();
+        } else {
+          startQuiz();
+        }
+      });
+      startQuiz();
+    </script>
+  </body>
+</html>

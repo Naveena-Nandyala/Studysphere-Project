@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Sidebar Menu</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <!-- <style>
+      body {
+        height: 100vh;
+        overflow-y: hidden;
+      }
+    </style> -->
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="logo_content">
+        <div class="logo">
+          <div class="logo_name">StudySphere</div>
+        </div>
+        <i class="bx bx-menu" id="btn"></i>
+      </div>
+      <ul class="nav_list">
+        <li>
+          <a href="#" onclick="loadContent('dashboard.html')">
+            <i class="bx bx-grid-alt"></i>
+            <span class="links_name">Dashboard</span>
+          </a>
+          <span class="tooltip">Dashboard</span>
+        </li>
+        <li>
+          <a href="#" onclick="loadContent('tutor_uploads.html')">
+            <i class="bx bx-upload"></i>
+            <span class="links_name">Upload Material</span>
+          </a>
+          <span class="tooltip">Upload</span>
+        </li>
+        <li>
+          <a href="#" onclick="loadContent('tutor_materials.html')">
+            <i class="bx bx-file"></i>
+            <span class="links_name">My Uploads</span>
+          </a>
+          <span class="tooltip">My Uploads</span>
+        </li>
+        <li>
+          <a href="#" onclick="loadContent('settings.html')">
+            <i class="bx bx-cog"></i>
+            <span class="links_name">Profile Settings</span>
+          </a>
+          <span class="tooltip">Settings</span>
+        </li>
+        <li>
+          <a href="#" id="logout">
+            <i class="bx bx-log-out"></i>
+            <span class="links_name">Logout</span>
+          </a>
+          <span class="tooltip">Logout</span>
+        </li>
+      </ul>
+    </div>
+    <iframe
+      class="home_content"
+      id="content-area"
+      src="dashboard.html"
+      title="dashboard-content"
+    >
+    </iframe>
+
+    <script>
+      let btn = document.querySelector("#btn");
+      let sidebar = document.querySelector(".sidebar");
+      btn.onclick = function () {
+        sidebar.classList.toggle("active");
+      };
+      // Add event listener to the logout link
+      document.getElementById("logout").addEventListener("click", function (e) {
+        e.preventDefault(); // Prevent the default link behavior
+
+        // Remove the user data from localStorage
+        localStorage.removeItem("currentUser"); // Replace 'user' with the key you are using to store data
+
+        // Optionally, you can redirect the user to the login page after logging out
+        window.location.href = "login.html"; // Replace 'login.html' with your actual login page
+      });
+      function loadContent(pageUrl) {
+        document.getElementById("content-area").src = pageUrl;
+      }
+    </script>
+  </body>
+</html>

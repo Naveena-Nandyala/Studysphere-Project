@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Materials</title>
+    <style>
+      body {
+        padding: 40px;
+        background-color: white;
+      }
+    </style>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h2 id="heading"><span>Study Materials</span></h2>
+    <label for="subjectSelect"
+      ><h3 id="filter-heading">Filter By Language:</h3></label
+    >
+    <select id="subjectSelect">
+      <option value="">Select Language</option>
+      <option value="DBMS">DBMS</option>
+      <option value="C">C</option>
+      <option value="C++">C++</option>
+      <option value="C#">C#</option>
+      <option value="Java">Java</option>
+      <option value="Python">Python</option>
+      <option value="JavaScript">JavaScript</option>
+      <option value="SQL">SQL</option>
+      <option value="MySQL">MySQL</option>
+      <option value="HTML">HTML</option>
+      <option value="CSS">CSS</option>
+      <option value="JavaScript">JavScript</option>
+      <option value="React.js">React.js</option>
+      <option value="Node.js">Node.js</option>
+      <option value="MongoDB">MongoDB</option>
+      <option value="SpringBoot">SpringBoot</option>
+      <option value="PHP">PHP</option>
+      <option value="Angular">Angular</option>
+      <option value="AWS">Amazon Web Services</option>
+      <option value="Artificial Intelligence">Artificial Intelligence</option>
+      <option value="Machine Learning">Machine Learning</option>
+      <option value="DSA">DSA</option>
+      <option value="Cloud Computing">Cloud Computing</option>
+      <option value="OS">Operating System</option>
+      <option value="BootStrap">BootStrap</option>
+      <option value="Django">Django</option>
+      <option value="Flask">Flask</option>
+      <option value="Hibernate">Hibernate</option>
+    </select>
+
+    <div id="no-data">No materials found for this Subject.</div>
+    <div id="materialsContainer"></div>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        query,
+        where,
+        getDocs,
+      } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBc6coBEXCse3FhaYK6h-31wcsDlwKUnzc",
+        authDomain: "studysphere-d6908.firebaseapp.com",
+        projectId: "studysphere-d6908",
+        storageBucket: "studysphere-d6908.appspot.com",
+        messagingSenderId: "595011447089",
+        appId: "1:595011447089:web:540703d6548990a228a810",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      const subjectSelect = document.getElementById("subjectSelect");
+      const materialsContainer = document.getElementById("materialsContainer");
+      const noDataDiv = document.getElementById("no-data");
+
+      let allMaterials = [];
+
+      async function loadAllMaterials() {
+        const querySnapshot = await getDocs(collection(db, "study_materials"));
+        allMaterials = [];
+        querySnapshot.forEach((doc) => {
+          allMaterials.push({ id: doc.id, ...doc.data() });
+        });
+        displayMaterials(allMaterials);
+      }
+
+      function displayMaterials(materials) {
+        materialsContainer.innerHTML = "";
+        noDataDiv.style.display = materials.length === 0 ? "block" : "none";
+
+        materials.forEach((data) => {
+          const card = document.createElement("div");
+          card.className = "material-card";
+
+          const uploadedDate = data.uploadedAt?.seconds
+            ? new Date(data.uploadedAt.seconds * 1000).toLocaleString()
+            : "N/A";
+
+          card.innerHTML = `
+          <h4><a href="${data.pdfURL}" target="_blank">${data.subject}</a></h4>
+        `;
+          materialsContainer.appendChild(card);
+        });
+      }
+
+      subjectSelect.addEventListener("change", () => {
+        const selectedSubject = subjectSelect.value.trim();
+        if (!selectedSubject) {
+          displayMaterials(allMaterials);
+        } else {
+          const filtered = allMaterials.filter(
+            (m) =>
+              m.subject &&
+              m.subject.toLowerCase() === selectedSubject.toLowerCase()
+          );
+          displayMaterials(filtered);
+        }
+      });
+
+      // Load everything initially
+      loadAllMaterials();
+    </script>
+  </body>
+</html>

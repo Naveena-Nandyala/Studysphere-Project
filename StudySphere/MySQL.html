@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        background: #001e4d;
+        height: 100vh;
+        max-height: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <h1>MySQL Quiz</h1>
+      <div class="quiz">
+        <h2 class="question">Question goes here</h2>
+        <div class="answer-buttons">
+          <button class="quiz-btn">Answer 1</button>
+          <button class="quiz-btn">Answer 2</button>
+          <button class="quiz-btn">Answer 3</button>
+          <button class="quiz-btn">Answer 4</button>
+        </div>
+        <button class="next-btn">Next</button>
+      </div>
+    </div>
+    <script>
+      const questions = [
+        {
+          question: "Who developed MySQL?",
+          answers: [
+            {
+              text: "MySQL AB",
+              correct: true,
+            },
+            {
+              text: "Microsoft",
+              correct: false,
+            },
+            {
+              text: "Oracle Corporation",
+              correct: false,
+            },
+            { text: "Sun Microsystems", correct: false },
+          ],
+        },
+        {
+          question: "Which type of Database Management System is MySQL?",
+          answers: [
+            {
+              text: "Network",
+              correct: false,
+            },
+            {
+              text: "Relational",
+              correct: true,
+            },
+            {
+              text: "Object-Oriented",
+              correct: false,
+            },
+            {
+              text: "Hierarchical",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question: "Which query language does MySQL use?",
+          answers: [
+            {
+              text: "Structured Query Language (SQL)",
+              correct: true,
+            },
+            {
+              text: "NoSQL",
+              correct: false,
+            },
+            { text: "JavaScript", correct: false },
+            { text: "MongoDB Query Language", correct: false },
+          ],
+        },
+        {
+          question:
+            "Which operator is used to perform integer divisions in MySQL?",
+          answers: [
+            { text: "/", correct: false },
+            { text: "!", correct: false },
+            { text: "DIV", correct: true },
+            { text: "//", correct: false },
+          ],
+        },
+        {
+          question:
+            "Which Clause is used to select a particular table in MySQL?",
+          answers: [
+            {
+              text: "ALTER",
+              correct: false,
+            },
+            {
+              text: "SELECT",
+              correct: false,
+            },
+            {
+              text: "WHERE",
+              correct: false,
+            },
+            {
+              text: "FROM",
+              correct: true,
+            },
+          ],
+        },
+        {
+          question:
+            "To check how MySQL would execute a SELECT query, which statement is used?",
+          answers: [
+            {
+              text: "EXPLAIN",
+              correct: true,
+            },
+            {
+              text: "SHOW",
+              correct: false,
+            },
+            { text: "DISPLAY", correct: false },
+            {
+              text: "TELL",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question: "How are identifiers quoted in MySQL?",
+          answers: [
+            { text: "single quotes", correct: false },
+            { text: "double quotes", correct: false },
+            { text: "backticks", correct: true },
+            { text: "cannot be quoted", correct: false },
+          ],
+        },
+        {
+          question:
+            "Which of the following is not a valid MySQL aggregate function?",
+          answers: [
+            {
+              text: "MAX",
+              correct: false,
+            },
+            {
+              text: "COUNT",
+              correct: false,
+            },
+            {
+              text: "AVG",
+              correct: false,
+            },
+            {
+              text: "ADD",
+              correct: true,
+            },
+          ],
+        },
+        {
+          question: "What is the meaning of the “SELECT” clause in MySQL?",
+          answers: [
+            {
+              text: "Show me all rows",
+              correct: false,
+            },
+            {
+              text: "Show me all columns",
+              correct: false,
+            },
+            {
+              text: "Show me all columns and rows",
+              correct: true,
+            },
+            {
+              text: "None of the mentioned",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question: "Which clause is similar to the “HAVING” clause in MySQL?",
+          answers: [
+            { text: "FROM", correct: false },
+            { text: "SELECT", correct: false },
+            { text: "WHERE", correct: true },
+            { text: "None of the mentioned", correct: false },
+          ],
+        },
+      ];
+
+      const questionElement = document.querySelector(".question");
+      const answerButtons = document.querySelector(".answer-buttons");
+      const nextButton = document.querySelector(".next-btn");
+
+      let currentQuestionIndex = 0;
+      let score = 0;
+
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+
+      function startQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        nextButton.innerHTML = "Next";
+        shuffleArray(questions);
+        questions.forEach((q) => shuffleArray(q.answers));
+        showQuestion();
+      }
+
+      function showQuestion() {
+        resetState();
+        let currentQuestion = questions[currentQuestionIndex];
+        let questionNo = currentQuestionIndex + 1;
+        questionElement.innerHTML =
+          questionNo + ". " + currentQuestion.question;
+        answerButtons.innerHTML = "";
+        currentQuestion.answers.forEach((answer) => {
+          const button = document.createElement("button");
+          button.innerText = answer.text;
+          button.classList.add("quiz-btn");
+          answerButtons.appendChild(button);
+          if (answer.correct) {
+            button.dataset.correct = answer.correct;
+          }
+          button.addEventListener("click", selectAnswer);
+        });
+      }
+
+      function resetState() {
+        nextButton.style.display = "none";
+        while (answerButtons.firstChild) {
+          answerButtons.removeChild(answerButtons.firstChild);
+        }
+      }
+
+      function selectAnswer(e) {
+        const selectedBtn = e.target;
+        const isCorrect = selectedBtn.dataset.correct === "true";
+        if (isCorrect) {
+          selectedBtn.classList.add("correct");
+          score++;
+        } else {
+          selectedBtn.classList.add("incorrect");
+        }
+        Array.from(answerButtons.children).forEach((button) => {
+          if (button.dataset.correct === "true") {
+            button.classList.add("correct");
+          }
+          button.disabled = "true";
+        });
+        nextButton.style.display = "block";
+      }
+
+      function showScore() {
+        resetState();
+        questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`;
+        nextButton.innerHTML = "Play Again";
+        nextButton.style.display = "block";
+      }
+
+      function handleNextButton() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+          showQuestion();
+        } else {
+          showScore();
+        }
+      }
+      nextButton.addEventListener("click", () => {
+        if (currentQuestionIndex < questions.length) {
+          handleNextButton();
+        } else {
+          startQuiz();
+        }
+      });
+      startQuiz();
+    </script>
+  </body>
+</html>

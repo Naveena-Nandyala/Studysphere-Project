@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="form-container">
+      <div class="container2">
+        <div class="form-box login">
+          <form id="loginForm">
+            <h2>Login</h2>
+            <div class="input-box" id="emailBox">
+              <input
+                type="email"
+                id="loginEmail"
+                placeholder="Email"
+                required
+              />
+              <i class="bx bxs-envelope"></i>
+            </div>
+            <div class="input-box" id="passwordBox">
+              <input
+                type="password"
+                id="loginPassword"
+                placeholder="Password"
+                required
+              />
+              <i class="bx bxs-lock-alt"></i>
+            </div>
+            <div class="forgot-link">
+              <a href="forgot.html">Forgot password?</a>
+            </div>
+            <button type="submit" class="btn">Login</button>
+            <!-- <button type="submit" class="guest" onclick="redirectToHome()">
+              Guest
+            </button> -->
+          </form>
+        </div>
+        <div class="toggle-box">
+          <div class="toggle-panel toggle-left">
+            <img
+              src="../StudySphere/images/login_image.jfif"
+              title="login_img"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+      import {
+        getAuth,
+        signInWithEmailAndPassword,
+      } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBc6coBEXCse3FhaYK6h-31wcsDlwKUnzc",
+        authDomain: "studysphere-d6908.firebaseapp.com",
+        projectId: "studysphere-d6908",
+        storageBucket: "studysphere-d6908.firebasestorage.app",
+        messagingSenderId: "595011447089",
+        appId: "1:595011447089:web:540703d6548990a228a810",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const email = document.getElementById("loginEmail").value;
+          const password = document.getElementById("loginPassword").value;
+
+          // Try Firebase login
+          signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+              const user = userCredential.user;
+              // Firebase login successful, now check the role
+              const registeredUsers =
+                JSON.parse(localStorage.getItem("users")) || [];
+
+              const foundUser = registeredUsers.find(
+                (user) => user.email === email
+              );
+
+              if (foundUser) {
+                localStorage.setItem("currentUser", foundUser.email);
+                if (foundUser.role === "tutor") {
+                  window.location.href = "tutor_dashboard.html";
+                } else if (foundUser.role === "student") {
+                  window.location.href = "student_dashboard.html";
+                } else {
+                  alert("User role not recognized.");
+                }
+              } else {
+                alert("No role information found in local storage.");
+              }
+            })
+            .catch((error) => {
+              const registeredUsers =
+                JSON.parse(localStorage.getItem("users")) || [];
+
+              const foundUser = registeredUsers.find(
+                (user) => user.email === email && user.password === password
+              );
+
+              if (foundUser) {
+                localStorage.setItem("currentUser", foundUser.email);
+                if (foundUser.role === "tutor") {
+                  window.location.href = "tutor_dashboard.html";
+                } else if (foundUser.role === "student") {
+                  window.location.href = "student_dashboard.html";
+                } else {
+                  alert("User role not recognized.");
+                }
+              } else {
+                alert("Invalid login credentials. Please try again.");
+              }
+            });
+        });
+    </script>
+  </body>
+</html>

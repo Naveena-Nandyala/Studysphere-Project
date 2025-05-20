@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        background: #001e4d;
+        height: 100vh;
+        max-height: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <h1>HTML Quiz</h1>
+      <div class="quiz">
+        <h2 class="question">Question goes here</h2>
+        <div class="answer-buttons">
+          <button class="quiz-btn">Answer 1</button>
+          <button class="quiz-btn">Answer 2</button>
+          <button class="quiz-btn">Answer 3</button>
+          <button class="quiz-btn">Answer 4</button>
+        </div>
+        <button class="next-btn">Next</button>
+      </div>
+    </div>
+    <script>
+      const questions = [
+        {
+          question: "What does HTML stand for?",
+          answers: [
+            { text: "Hyper Trainer Marking Language", correct: false },
+            { text: "Hyper Text Marketing Language", correct: false },
+            { text: "Hyper Text Markup Language", correct: true },
+            { text: "Hyper Text Markup Leveler", correct: false },
+          ],
+        },
+        {
+          question: "Which HTML attribute is used to define inline styles?",
+          answers: [
+            { text: "class", correct: false },
+            { text: "font", correct: false },
+            { text: "styles", correct: false },
+            { text: "style", correct: true },
+          ],
+        },
+        {
+          question:
+            "Which input type allows a user to select a file from their device?",
+          answers: [
+            { text: "text", correct: false },
+            { text: "file", correct: true },
+            { text: "picker", correct: false },
+            { text: "image", correct: false },
+          ],
+        },
+        {
+          question: "What does the <thead> element define in a table?",
+          answers: [
+            { text: "The bottom row", correct: false },
+            { text: "The table body", correct: false },
+            { text: "The footer row", correct: false },
+            { text: "The header row", correct: true },
+          ],
+        },
+        {
+          question:
+            "Which of the following colors contain equal amounts of RBG?",
+          answers: [
+            { text: "White", correct: false },
+            { text: "Gray", correct: false },
+            { text: "Black", correct: false },
+            { text: "All of the above", correct: true },
+          ],
+        },
+        {
+          question: "What is the select tag used for?",
+          answers: [
+            { text: "Creates a combo box", correct: true },
+            {
+              text: "Select some attributes and change their style",
+              correct: false,
+            },
+            { text: "Change text font", correct: false },
+            { text: "None of the above", correct: false },
+          ],
+        },
+        {
+          question: "What tag is used to render an image on a webpage?",
+          answers: [
+            { text: "img", correct: true },
+            { text: "src", correct: false },
+            { text: "image", correct: false },
+            { text: "None of the above", correct: false },
+          ],
+        },
+        {
+          question: "What is meant by an empty tag in HTML?",
+          answers: [
+            {
+              text: "There is no such concept of an empty tag in HTML",
+              correct: false,
+            },
+            {
+              text: "An empty tag does not require a closing tag",
+              correct: true,
+            },
+            {
+              text: "An empty tag cannot have any content within it",
+              correct: false,
+            },
+            { text: "None of the above", correct: false },
+          ],
+        },
+        {
+          question: "Which of the following is correct about HTML?",
+          answers: [
+            { text: "HTML uses User Defined Tags", correct: false },
+            {
+              text: "HTML uses tags defined within the language",
+              correct: true,
+            },
+            { text: "Both A and B", correct: false },
+            { text: "None of the above", correct: false },
+          ],
+        },
+        {
+          question: "Which of the following is true about HTML tags?",
+          answers: [
+            { text: "Are case sensitive", correct: false },
+            { text: "Are not case sensitive", correct: true },
+            { text: "Are in uppercase", correct: false },
+            { text: "Are in lowercase", correct: false },
+          ],
+        },
+      ];
+
+      const questionElement = document.querySelector(".question");
+      const answerButtons = document.querySelector(".answer-buttons");
+      const nextButton = document.querySelector(".next-btn");
+
+      let currentQuestionIndex = 0;
+      let score = 0;
+
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+
+      function startQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        nextButton.innerHTML = "Next";
+        shuffleArray(questions);
+        questions.forEach((q) => shuffleArray(q.answers));
+        showQuestion();
+      }
+
+      function showQuestion() {
+        resetState();
+        let currentQuestion = questions[currentQuestionIndex];
+        let questionNo = currentQuestionIndex + 1;
+        questionElement.innerHTML =
+          questionNo + ". " + currentQuestion.question;
+        answerButtons.innerHTML = "";
+        currentQuestion.answers.forEach((answer) => {
+          const button = document.createElement("button");
+          button.innerText = answer.text;
+          button.classList.add("quiz-btn");
+          answerButtons.appendChild(button);
+          if (answer.correct) {
+            button.dataset.correct = answer.correct;
+          }
+          button.addEventListener("click", selectAnswer);
+        });
+      }
+
+      function resetState() {
+        nextButton.style.display = "none";
+        while (answerButtons.firstChild) {
+          answerButtons.removeChild(answerButtons.firstChild);
+        }
+      }
+
+      function selectAnswer(e) {
+        const selectedBtn = e.target;
+        const isCorrect = selectedBtn.dataset.correct === "true";
+        if (isCorrect) {
+          selectedBtn.classList.add("correct");
+          score++;
+        } else {
+          selectedBtn.classList.add("incorrect");
+        }
+        Array.from(answerButtons.children).forEach((button) => {
+          if (button.dataset.correct === "true") {
+            button.classList.add("correct");
+          }
+          button.disabled = "true";
+        });
+        nextButton.style.display = "block";
+      }
+
+      function showScore() {
+        resetState();
+        questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`;
+        nextButton.innerHTML = "Play Again";
+        nextButton.style.display = "block";
+      }
+
+      function handleNextButton() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+          showQuestion();
+        } else {
+          showScore();
+        }
+      }
+      nextButton.addEventListener("click", () => {
+        if (currentQuestionIndex < questions.length) {
+          handleNextButton();
+        } else {
+          startQuiz();
+        }
+      });
+      startQuiz();
+    </script>
+  </body>
+</html>

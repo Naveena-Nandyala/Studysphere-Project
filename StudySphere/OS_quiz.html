@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        background: #001e4d;
+        height: 100vh;
+        max-height: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <h1>OS Quiz</h1>
+      <div class="quiz">
+        <h2 class="question">Question goes here</h2>
+        <div class="answer-buttons">
+          <button class="quiz-btn">Answer 1</button>
+          <button class="quiz-btn">Answer 2</button>
+          <button class="quiz-btn">Answer 3</button>
+          <button class="quiz-btn">Answer 4</button>
+        </div>
+        <button class="next-btn">Next</button>
+      </div>
+    </div>
+    <script>
+      const questions = [
+        {
+          question: "What is an operating system?",
+          answers: [
+            {
+              text: "interface between the hardware and application programs",
+              correct: false,
+            },
+            {
+              text: "collection of programs that manages hardware resources",
+              correct: false,
+            },
+            {
+              text: "system service provider to the application programs",
+              correct: false,
+            },
+            { text: "all of the mentioned", correct: true },
+          ],
+        },
+        {
+          question: "What is the main function of the command interpreter?",
+          answers: [
+            {
+              text: "to provide the interface between the API and application program",
+              correct: false,
+            },
+            {
+              text: "to handle the files in the operating system",
+              correct: false,
+            },
+            {
+              text: "to get and execute the next user-specified command",
+              correct: true,
+            },
+            {
+              text: "none of the mentioned",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question: "In real time operating system ____________",
+          answers: [
+            {
+              text: "process scheduling can be done only once",
+              correct: false,
+            },
+            {
+              text: "all processes have the same priority",
+              correct: false,
+            },
+            { text: "kernel is not required", correct: false },
+            {
+              text: "a task must be serviced by its deadline period",
+              correct: true,
+            },
+          ],
+        },
+        {
+          question:
+            "To access the services of the operating system, the interface is provided by the ___________",
+          answers: [
+            { text: "Library", correct: false },
+            { text: "System Calls", correct: true },
+            { text: "Assembly Instructions", correct: false },
+            { text: "API", correct: false },
+          ],
+        },
+        {
+          question: "CPU scheduling is the basis of ___________",
+          answers: [
+            {
+              text: "multiprogramming operating systems",
+              correct: true,
+            },
+            {
+              text: "larger memory sized systems",
+              correct: false,
+            },
+            {
+              text: "multiprocessor systems",
+              correct: false,
+            },
+            {
+              text: "none of the mentioned",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question: "In operating system, each process has its own __________",
+          answers: [
+            {
+              text: "open files",
+              correct: false,
+            },
+            {
+              text: "pending alarms, signals, and signal handlers",
+              correct: false,
+            },
+            { text: "address space and global variables", correct: false },
+            {
+              text: "all of the mentioned",
+              correct: true,
+            },
+          ],
+        },
+        {
+          question:
+            "When a process is in a “Blocked” state waiting for some I/O service. When the service is completed, it goes to the __________",
+          answers: [
+            { text: "Terminated State", correct: false },
+            { text: "Suspended State", correct: false },
+            { text: "Running State", correct: false },
+            { text: "Ready State", correct: true },
+          ],
+        },
+        {
+          question:
+            "The FCFS algorithm is particularly troublesome for ____________",
+          answers: [
+            {
+              text: "operating systems",
+              correct: false,
+            },
+            {
+              text: "multiprocessor systems",
+              correct: false,
+            },
+            {
+              text: "time sharing systems",
+              correct: true,
+            },
+            {
+              text: "multiprogramming systems",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question:
+            "For an effective operating system, when to check for deadlock?",
+          answers: [
+            {
+              text: "every time a resource request is made at fixed time intervals",
+              correct: true,
+            },
+            {
+              text: "at fixed time intervals",
+              correct: false,
+            },
+            {
+              text: "every time a resource request is made",
+              correct: false,
+            },
+            {
+              text: "none of the mentioned",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question: "The operating system is responsible for?",
+          answers: [
+            { text: "bad-block recovery", correct: false },
+            { text: "booting from disk", correct: false },
+            { text: "disk initialization", correct: false },
+            { text: "all of the mentioned", correct: true },
+          ],
+        },
+      ];
+
+      const questionElement = document.querySelector(".question");
+      const answerButtons = document.querySelector(".answer-buttons");
+      const nextButton = document.querySelector(".next-btn");
+
+      let currentQuestionIndex = 0;
+      let score = 0;
+
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+
+      function startQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        nextButton.innerHTML = "Next";
+        shuffleArray(questions);
+        questions.forEach((q) => shuffleArray(q.answers));
+        showQuestion();
+      }
+
+      function showQuestion() {
+        resetState();
+        let currentQuestion = questions[currentQuestionIndex];
+        let questionNo = currentQuestionIndex + 1;
+        questionElement.innerHTML =
+          questionNo + ". " + currentQuestion.question;
+        answerButtons.innerHTML = "";
+        currentQuestion.answers.forEach((answer) => {
+          const button = document.createElement("button");
+          button.innerText = answer.text;
+          button.classList.add("quiz-btn");
+          answerButtons.appendChild(button);
+          if (answer.correct) {
+            button.dataset.correct = answer.correct;
+          }
+          button.addEventListener("click", selectAnswer);
+        });
+      }
+
+      function resetState() {
+        nextButton.style.display = "none";
+        while (answerButtons.firstChild) {
+          answerButtons.removeChild(answerButtons.firstChild);
+        }
+      }
+
+      function selectAnswer(e) {
+        const selectedBtn = e.target;
+        const isCorrect = selectedBtn.dataset.correct === "true";
+        if (isCorrect) {
+          selectedBtn.classList.add("correct");
+          score++;
+        } else {
+          selectedBtn.classList.add("incorrect");
+        }
+        Array.from(answerButtons.children).forEach((button) => {
+          if (button.dataset.correct === "true") {
+            button.classList.add("correct");
+          }
+          button.disabled = "true";
+        });
+        nextButton.style.display = "block";
+      }
+
+      function showScore() {
+        resetState();
+        questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`;
+        nextButton.innerHTML = "Play Again";
+        nextButton.style.display = "block";
+      }
+
+      function handleNextButton() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+          showQuestion();
+        } else {
+          showScore();
+        }
+      }
+      nextButton.addEventListener("click", () => {
+        if (currentQuestionIndex < questions.length) {
+          handleNextButton();
+        } else {
+          startQuiz();
+        }
+      });
+      startQuiz();
+    </script>
+  </body>
+</html>

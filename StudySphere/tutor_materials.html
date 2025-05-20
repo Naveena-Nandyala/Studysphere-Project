@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tutor Materials</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        padding: 20px;
+        background: linear-gradient(to right, #fc00ff, #00dbde);
+      }
+    </style>
+  </head>
+  <body>
+    <h2 id="table-heading">Your Uploaded Study Materials</h2>
+    <div id="no-data" style="display: none">No materials uploaded yet.</div>
+    <table id="materialsTable" style="display: none">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Class</th>
+          <th>Subject</th>
+          <th>PDF Link</th>
+          <th>Uploaded At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        query,
+        where,
+        orderBy,
+        onSnapshot,
+        deleteDoc,
+        updateDoc,
+        doc,
+      } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBc6coBEXCse3FhaYK6h-31wcsDlwKUnzc",
+        authDomain: "studysphere-d6908.firebaseapp.com",
+        projectId: "studysphere-d6908",
+        storageBucket: "studysphere-d6908.firebasestorage.app",
+        messagingSenderId: "595011447089",
+        appId: "1:595011447089:web:540703d6548990a228a810",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const auth = getAuth(app);
+
+      const table = document.getElementById("materialsTable");
+      const tableBody = table.querySelector("tbody");
+      const noDataDiv = document.getElementById("no-data");
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          const currentUserEmail = user.email;
+
+          const q = query(
+            collection(db, "study_materials"),
+            where("uploadedBy", "==", currentUserEmail),
+            orderBy("uploadedAt", "desc")
+          );
+
+          onSnapshot(q, (snapshot) => {
+            tableBody.innerHTML = "";
+            let index = 1;
+
+            if (snapshot.empty) {
+              noDataDiv.style.display = "block";
+              table.style.display = "none";
+              return;
+            } else {
+              noDataDiv.style.display = "none";
+              table.style.display = "table";
+            }
+            snapshot.forEach((docSnap) => {
+              const data = docSnap.data();
+              const row = document.createElement("tr");
+
+              row.innerHTML = `
+              <td>${index++}</td>
+              <td>${data.class}</td>
+              <td>${data.subject}</td>
+              <td><a href="${data.pdfURL}" target="_blank">View</a></td>
+              <td>${
+                data.uploadedAt?.seconds
+                  ? new Date(data.uploadedAt.seconds * 1000).toLocaleString()
+                  : "N/A"
+              }</td>
+              <td id="actions">
+                <button onclick="editMaterial('${docSnap.id}', '${
+                data.pdfURL
+              }')" class="material-btn">Edit</button>
+                <button onclick="deleteMaterial('${
+                  docSnap.id
+                }')" class="material-btn">Delete</button>
+              </td>
+            `;
+
+              tableBody.appendChild(row);
+            });
+          });
+        } else {
+          alert("User not logged in!");
+        }
+      });
+
+      // Delete Material
+      window.deleteMaterial = async (docId) => {
+        if (confirm("Are you sure you want to delete this material?")) {
+          await deleteDoc(doc(db, "study_materials", docId));
+          alert("Material deleted successfully.");
+        }
+      };
+
+      // Edit Material
+      window.editMaterial = async (docId, currentLink) => {
+        const newLink = prompt("Enter new PDF link:", currentLink);
+        if (newLink && newLink.trim() !== "" && newLink !== currentLink) {
+          await updateDoc(doc(db, "study_materials", docId), {
+            pdfURL: newLink.trim(),
+            uploadedAt: new Date(),
+          });
+          alert("PDF link updated successfully.");
+        }
+      };
+    </script>
+  </body>
+</html>
