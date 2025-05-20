@@ -100,18 +100,19 @@ nav.scrolled .nav-links a {
   right: 0;
   height: 100vh;
   width: 250px;
-  background-color: white;
+  /* background-color: white; */
   flex-direction: column;
   align-items: flex-start;
   padding: 1rem;
   z-index: 1000;
-  /* background: rgba(255, 255, 255, 0.9); */
+  background: rgba(255, 255, 255, 0.4);
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
   justify-content: flex-start;
 }
 /* .nav-sidebar {
 } */
 .navbar .nav-sidebar {
+  /* background-color: white; */
   padding-right: 14%;
   /* display: flex; */
   align-items: center;
@@ -247,7 +248,7 @@ h1 {
 
 /* ------------------Desktop Styles----------------- */
 @media screen and (min-width: 769px) {
-  .nav-debar {
+  .nav-sidebar {
     display: none !important;
   }
   .menu-button {
