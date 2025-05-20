@@ -20,7 +20,7 @@ body {
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
-/* ---------------Homepage.html--------------------------- */
+/* ---------------index.html--------------------------- */
 /* container */
 .container {
   width: 100%;
@@ -926,7 +926,7 @@ select {
   margin-bottom: 30px;
 }
 #materialsContainer {
-  margin-top: 93wsoi0px;
+  margin-top: 93px;
   display: grid;
   grid-template-columns: auto auto auto auto auto;
 }
@@ -1110,6 +1110,9 @@ th {
 #no-data {
   text-align: center;
   margin-top: 30px;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
 }
 td > a {
   text-decoration: none;
