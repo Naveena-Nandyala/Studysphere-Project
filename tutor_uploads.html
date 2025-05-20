@@ -48,7 +48,7 @@
         />
       </div>
 
-      <button type="submit" id="upload-btn">Upload</button>
+      <button id="upload-btn">Upload</button>
     </form>
 
     <script type="module">
@@ -98,8 +98,6 @@
           alert("User not authenticated.");
           return;
         }
-
-        const classInput = document.getElementById("classInput").value.trim();
         const subjectInput = document
           .getElementById("subjectInput")
           .value.trim();
@@ -107,7 +105,6 @@
 
         try {
           await addDoc(collection(db, "study_materials"), {
-            class: classInput,
             subject: subjectInput,
             pdfURL: pdfLink,
             uploadedBy: currentUserEmail,
