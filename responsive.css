@@ -1,41 +1,59 @@
-/* responsive.css */
-
-/* Tablets and below */
-@media screen and (max-width: 1024px) {
-  .navbar .nav-links {
-    padding-left: 40%;
+/* === Mobile Devices (max-width: 767px) === */
+@media (max-width: 767px) {
+  .navbar {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 20px;
+    position: relative;
   }
 
-  h1 {
-    font-size: 50px;
-    padding-right: 100px;
+  .navbar .logo {
+    width: 35px;
+    margin-left: 0;
   }
 
-  #caption {
-    font-size: 18px;
-  }
-
-  .card {
-    width: 140px;
-    height: 140px;
-  }
-}
-
-/* Mobile phones */
-@media screen and (max-width: 768px) {
-  .navbar .nav-links {
+  .nav-links {
     display: none;
   }
 
   .menu-button {
     display: block;
-    padding-left: 20px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    z-index: 1001;
+  }
+
+  .nav-sidebar {
+    display: flex;
+  }
+
+  .nav-sidebar li {
+    width: 100%;
+    text-align: left;
+    margin: 10px 0;
+  }
+
+  .nav-sidebar a {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  .container {
+    padding-left: 5%;
+    padding-right: 5%;
+    background-position: center;
+    background-size: cover;
+    text-align: center;
   }
 
   .row {
-    flex-direction: column;
-    padding-top: 80px;
-    text-align: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 60px;
   }
 
   .col {
@@ -43,49 +61,31 @@
   }
 
   h1 {
-    font-size: 40px;
+    font-size: 2rem;
+    padding-top: 20px;
     padding-right: 0;
-    padding-top: 60px;
   }
 
   #caption {
-    font-size: 16px;
+    font-size: 1rem;
+    line-height: 1.4;
+    padding: 10px;
   }
 
   .card {
-    width: 120px;
-    height: 120px;
-  }
-
-  .about .content {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .imgBox {
-    margin-top: 20px;
+    width: 45%;
+    height: 160px;
+    margin: 10px 0;
   }
 }
 
-/* Very small devices */
-@media screen and (max-width: 480px) {
-  h1 {
-    font-size: 30px;
+/* === Tablets (768px to 1024px) === */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .navbar {
+    padding: 15px 30px;
   }
 
-  #caption {
-    font-size: 14px;
-  }
-
-  .card {
-    width: 100px;
-    height: 100px;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .hideOnMobile {
+  .nav-links {
     display: none;
   }
 
@@ -94,31 +94,67 @@
   }
 
   .nav-sidebar {
-    display: none;
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 250px;
-    height: 100%;
-    background-color: #fff;
-    flex-direction: column;
-    align-items: start;
-    padding: 20px;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
-    z-index: 100;
+    display: flex;
   }
 
-  .nav-sidebar li {
-    margin: 10px 0;
+  .container {
+    padding-left: 5%;
+    padding-right: 5%;
+    text-align: center;
+  }
+
+  .row {
+    flex-direction: column;
+    padding-top: 80px;
+  }
+
+  .col {
+    flex-basis: 100%;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    padding-right: 0;
+  }
+
+  .card {
+    width: 200px;
+    height: 200px;
+    margin: 15px auto;
   }
 }
 
-@media (min-width: 769px) {
+/* === Laptops & Desktops (1025px and up) === */
+@media (min-width: 1025px) {
+  .menu-button {
+    display: none;
+  }
+
+  .nav-links {
+    display: flex;
+  }
+
   .nav-sidebar {
     display: none !important;
   }
 
-  .menu-button {
-    display: none;
+  .row {
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 100px;
+  }
+
+  .col {
+    flex-basis: 50%;
+  }
+
+  h1 {
+    font-size: 70px;
+  }
+
+  .card {
+    width: 170px;
+    height: 170px;
+    margin: 10px;
   }
 }

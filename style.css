@@ -231,31 +231,6 @@ h1 {
   animation-name: animate__backInLeft;
 }
 
-/* ------------------Mobile Styles----------------- */
-@media screen and (max-width: 768px) {
-  .hideOnMobile {
-    display: none;
-  }
-  .menu-button {
-    display: block;
-    cursor: pointer;
-  }
-  .nav-sidebar {
-    display: none;
-    flex-direction: column;
-  }
-}
-
-/* ------------------Desktop Styles----------------- */
-@media screen and (min-width: 769px) {
-  .nav-sidebar {
-    display: none !important;
-  }
-  .menu-button {
-    display: none;
-  }
-}
-
 /* -------------------signup.html-------------------------- */
 
 .form-container {
