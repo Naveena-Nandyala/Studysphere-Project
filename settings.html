@@ -138,7 +138,7 @@
             <label>ROLE:</label>
             <select id="role" required title="role">
               <option value="">Select Role</option>
-              <option value="Teacher">Teacher</option>
+              <option value="Tutor">Tutor</option>
               <option value="Student">Student</option>
             </select>
           </div>
@@ -223,7 +223,7 @@
 
       // Role selection logic
       roleField.addEventListener("change", () => {
-        if (roleField.value === "Teacher") {
+        if (roleField.value === "Tutor") {
           subjectGroup.style.display = "flex";
           idGroup.style.display = "flex";
           // rollGroup.style.display = "none";
@@ -331,7 +331,7 @@
             <p><strong>Phone:</strong> ${data.phone}</p>
             <p><strong>Role:</strong> ${data.role}</p>
             ${
-              data.role === "Teacher"
+              data.role === "Tutor"
                 ? `<p><strong>Subject:</strong> ${data.subject}</p><p><strong>ID:</strong> ${data.idField}</p>`
                 : ""
             }

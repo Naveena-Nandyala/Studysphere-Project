@@ -16,7 +16,7 @@
         <div class="form-box login">
           <form id="loginForm">
             <h2>Login</h2>
-            <div class="input-box" id="emailBox">
+            <div class="input-box" id="loginEmailBox">
               <input
                 type="email"
                 id="loginEmail"
@@ -25,7 +25,7 @@
               />
               <i class="bx bxs-envelope"></i>
             </div>
-            <div class="input-box" id="passwordBox">
+            <div class="input-box" id="loginPasswordBox">
               <input
                 type="password"
                 id="loginPassword"
@@ -83,11 +83,11 @@
             <div class="input-box" id="subjectBox">
               <input type="text" id="regSub" placeholder="Subject" required />
             </div>
-            <div class="input-box" id="emailBox">
+            <div class="input-box" id="regEmailBox">
               <input type="email" id="regEmail" placeholder="Email" required />
               <i class="bx bxs-envelope"></i>
             </div>
-            <div class="input-box" id="passwordBox">
+            <div class="input-box" id="regPasswordBox">
               <input
                 type="password"
                 id="regPassword"
@@ -124,16 +124,21 @@
       } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
       import {
         getFirestore,
+        collection,
+        query,
+        where,
+        getDocs,
         doc,
         setDoc,
         getDoc,
       } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
+      // ✅ Initialize Firebase
       const firebaseConfig = {
         apiKey: "AIzaSyBc6coBEXCse3FhaYK6h-31wcsDlwKUnzc",
         authDomain: "studysphere-d6908.firebaseapp.com",
         projectId: "studysphere-d6908",
-        storageBucket: "studysphere-d6908.firebasestorage.app",
+        storageBucket: "studysphere-d6908.appspot.com",
         messagingSenderId: "595011447089",
         appId: "1:595011447089:web:540703d6548990a228a810",
       };
@@ -142,6 +147,7 @@
       const auth = getAuth(app);
       const db = getFirestore(app);
 
+      // ✅ Registration Handler
       document
         .getElementById("registrationForm")
         .addEventListener("submit", async function (e) {
@@ -151,141 +157,111 @@
           const role = document.querySelector(
             'input[name="role"]:checked'
           )?.value;
-          let idNumber = "";
-          if (role === "tutor") {
-            idNumber = document.getElementById("regId").value;
-          }
           const email = document.getElementById("regEmail").value;
           const password = document.getElementById("regPassword").value;
+          const subjectInput = document.getElementById("regSub");
+          const subject = subjectInput ? subjectInput.value : "";
+          const idInput = document.getElementById("regId");
+          const idNumber = role === "tutor" && idInput ? idInput.value : "";
 
-          // Fetch all users from local storage (if any)
-          let users = JSON.parse(localStorage.getItem("users")) || [];
-          let inputEmail = document.getElementById("regEmail").value;
-
-          let emailExists = users.some((user) => user.email === inputEmail);
-
-          if (emailExists) {
-            alert("Email already exists. Go to login page.");
-            return;
-          }
-
-          // Prepare user data
-          const userData = {
-            username,
-            role,
-            email,
-            password,
-          };
-
-          if (role === "tutor") {
-            userData.idNumber = idNumber;
-          }
-
-          // Register in Firebase
           try {
+            // Check for existing email in Firestore
+            const q = query(
+              collection(db, "users"),
+              where("email", "==", email)
+            );
+            const querySnapshot = await getDocs(q);
+            if (!querySnapshot.empty) {
+              alert("Email already exists. Go to login page.");
+              return;
+            }
+
+            // ✅ Register with Firebase Auth
             const userCredential = await createUserWithEmailAndPassword(
               auth,
               email,
               password
             );
-            // .then((userCredential) => {
             const user = userCredential.user;
+
+            // ✅ Send email verification
             await sendEmailVerification(user);
+
+            // ✅ Store additional user data in Firestore
             await setDoc(doc(db, "users", user.uid), {
-              username,
-              email,
-              role,
-              idNumber,
+              uid: user.uid,
+              username: username,
+              email: email,
+              role: role,
+              subject: role === "tutor" ? subject : "",
+              idNumber: idNumber,
+              createdAt: new Date(),
             });
+
             alert(
-              "Registration successful! A verification email has been sent to your email address. Please verify to continue."
+              "Registration successful! A verification email has been sent."
             );
-            window.location.href = "login.html";
           } catch (error) {
+            console.error("Registration failed:", error);
             alert("Registration failed: " + error.message);
           }
         });
-      // .then(() => {
-      //   // Add to local storage list
-      //   users.push(userData);
-      //   localStorage.setItem("users", JSON.stringify(users));
-      //   if (role === "tutor") {
-      //     alert(
-      //       "Registration successful! A verification email has been sent to your email address. Please verify to continue."
-      //     );
-      //   } else if (role === "student") {
-      //     alert(
-      //       "Registration successful! A verification email has been sent to your email address. Please verify to continue."
-      //     );
-      //   }
-      // alert(
-      //   "Registration successful! A verification email has been sent to your email address. Please verify to continue."
-      // );
-      //           window.location.href = "login.html";
-      //         })
-      //         .catch((error) => {
-      //           alert("Failed to send verification email: " + error.message);
-      //         });
-      //     })
-      //     .catch((error) => {
-      //       console.log("Firebase Registration Failed:", error);
-      //       alert("Registration Failed: " + error.message);
-      //     });
-      // });
+
+      // ✅ Login Handler (clean and only Firestore based)
       document
         .getElementById("loginForm")
-        .addEventListener("submit", function (e) {
+        .addEventListener("submit", async function (e) {
           e.preventDefault();
 
           const email = document.getElementById("loginEmail").value;
           const password = document.getElementById("loginPassword").value;
 
-          // Try Firebase login
-          signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-              const user = userCredential.user;
-              // Firebase login successful, now check the role
-              const registeredUsers =
-                JSON.parse(localStorage.getItem("users")) || [];
+          try {
+            const userCredential = await signInWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+            const user = userCredential.user;
 
-              const foundUser = registeredUsers.find(
-                (user) => user.email === email
+            // ✅ Ensure email is verified
+            if (!user.emailVerified) {
+              alert("Please verify your email before logging in.");
+              return;
+            }
+
+            // ✅ Get user data from Firestore based on UID
+            const userDocRef = doc(db, "users", user.uid);
+            const userDocSnap = await getDoc(userDocRef);
+
+            if (!userDocSnap.exists()) {
+              alert("No user data found in Firestore.");
+              return;
+            }
+
+            const userData = userDocSnap.data();
+
+            // ✅ Redirect based on role
+            if (userData.role === "Tutor") {
+              window.location.href = "tutor_dashboard.html";
+            } else if (userData.role === "Student") {
+              window.location.href = "student_dashboard.html";
+            } else {
+              alert("Unknown role. Please contact admin.");
+            }
+          } catch (error) {
+            if (
+              error.code === "auth/invalid-credential" ||
+              error.code === "auth/user-not-found"
+            ) {
+              alert(
+                "Invalid email or password. Please check your credentials."
               );
-
-              if (foundUser) {
-                localStorage.setItem("currentUser", foundUser.email);
-                if (foundUser.role === "tutor") {
-                  window.location.href = "tutor_dashboard.html";
-                } else if (foundUser.role === "student") {
-                  window.location.href = "student_dashboard.html";
-                } else {
-                  alert("User role not recognized.");
-                }
-              } else {
-                alert("No role information found in local storage.");
-              }
-            })
-            .catch((error) => {
-              const registeredUsers =
-                JSON.parse(localStorage.getItem("users")) || [];
-
-              const foundUser = registeredUsers.find(
-                (user) => user.email === email && user.password === password
-              );
-
-              if (foundUser) {
-                localStorage.setItem("currentUser", foundUser.email);
-                if (foundUser.role === "tutor") {
-                  window.location.href = "tutor_dashboard.html";
-                } else if (foundUser.role === "student") {
-                  window.location.href = "student_dashboard.html";
-                } else {
-                  alert("User role not recognized.");
-                }
-              } else {
-                alert("Invalid login credentials. Please try again.");
-              }
-            });
+            } else {
+              console.error("Login error:", error);
+              alert("Login failed: " + error.message);
+            }
+          }
         });
     </script>
 
@@ -330,13 +306,7 @@
       window.onload = function () {
         document.getElementById("idBox").style.display = "none";
         document.getElementById("subjectBox").style.display = "none";
-
-        // Redirect to website on login
-        // const loginForm = document.querySelector(".login form");
-        // loginForm.addEventListener("submit", function (e) {
-        //   e.preventDefault();
-        //   window.location.href = "webpage.html";
-        // });
+        toggleFields();
       };
     </script>
   </body>

@@ -38,9 +38,6 @@
               <a href="forgot.html">Forgot password?</a>
             </div>
             <button type="submit" class="btn">Login</button>
-            <!-- <button type="submit" class="guest" onclick="redirectToHome()">
-              Guest
-            </button> -->
           </form>
         </div>
         <div class="toggle-box">
@@ -56,7 +53,16 @@
         getAuth,
         signInWithEmailAndPassword,
       } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-
+      import {
+        getFirestore,
+        collection,
+        query,
+        where,
+        getDocs,
+        doc,
+        setDoc,
+        getDoc,
+      } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
       const firebaseConfig = {
         apiKey: "AIzaSyBc6coBEXCse3FhaYK6h-31wcsDlwKUnzc",
         authDomain: "studysphere-d6908.firebaseapp.com",
@@ -68,60 +74,62 @@
 
       const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
+      const db = getFirestore(app);
+      // ✅ Login Handler (clean and only Firestore based)
       document
         .getElementById("loginForm")
-        .addEventListener("submit", function (e) {
+        .addEventListener("submit", async function (e) {
           e.preventDefault();
 
           const email = document.getElementById("loginEmail").value;
           const password = document.getElementById("loginPassword").value;
 
-          // Try Firebase login
-          signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-              const user = userCredential.user;
-              // Firebase login successful, now check the role
-              const registeredUsers =
-                JSON.parse(localStorage.getItem("users")) || [];
+          try {
+            const userCredential = await signInWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+            const user = userCredential.user;
 
-              const foundUser = registeredUsers.find(
-                (user) => user.email === email
+            // ✅ Ensure email is verified
+            if (!user.emailVerified) {
+              alert("Please verify your email before logging in.");
+              return;
+            }
+
+            // ✅ Get user data from Firestore based on UID
+            const userDocRef = doc(db, "users", user.uid);
+            const userDocSnap = await getDoc(userDocRef);
+
+            if (!userDocSnap.exists()) {
+              alert("No user data found in Firestore.");
+              return;
+            }
+
+            const userData = userDocSnap.data();
+
+            // ✅ Redirect based on role
+            if (userData.role === "Tutor") {
+              window.location.href = "tutor_dashboard.html";
+            } else if (userData.role === "Student") {
+              window.location.href = "student_dashboard.html";
+            } else {
+              alert("Unknown role. Please contact admin.");
+            }
+          } catch (error) {
+            if (
+              error.code === "auth/invalid-credential" ||
+              error.code === "auth/user-not-found"
+            ) {
+              alert(
+                "Invalid email or password. Please check your credentials."
               );
-
-              if (foundUser) {
-                localStorage.setItem("currentUser", foundUser.email);
-                if (foundUser.role === "tutor") {
-                  window.location.href = "tutor_dashboard.html";
-                } else if (foundUser.role === "student") {
-                  window.location.href = "student_dashboard.html";
-                } else {
-                  alert("User role not recognized.");
-                }
-              } else {
-                alert("No role information found in local storage.");
-              }
-            })
-            .catch((error) => {
-              const registeredUsers =
-                JSON.parse(localStorage.getItem("users")) || [];
-
-              const foundUser = registeredUsers.find(
-                (user) => user.email === email && user.password === password
-              );
-
-              if (foundUser) {
-                localStorage.setItem("currentUser", foundUser.email);
-                if (foundUser.role === "tutor") {
-                  window.location.href = "tutor_dashboard.html";
-                } else if (foundUser.role === "student") {
-                  window.location.href = "student_dashboard.html";
-                } else {
-                  alert("User role not recognized.");
-                }
-              } else {
-                alert("Invalid login credentials. Please try again.");
-              }
-            });
+            } else {
+              console.error("Login error:", error);
+              alert("Login failed: " + error.message);
+            }
+          }
         });
     </script>
   </body>

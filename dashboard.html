@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
     <link
       rel="stylesheet"
@@ -47,7 +47,7 @@
   </head>
   <body>
     <div class="welcome-img">
-      <img src="./images/image6.png" alt=""/>
+      <img src="./images/image6.png" alt="" />
       <div class="welcome-message animate__animated" id="welcomeMessage">
         Loading....
       </div>
@@ -94,47 +94,78 @@
         title="video-content"
       ></iframe>
     </div>
-    <script>
-      function displayUser() {
-        const users = JSON.parse(localStorage.getItem("users"));
-        const currentUserEmail = localStorage.getItem("currentUser"); // Email stored during login
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+      import {
+        getFirestore,
+        doc,
+        getDoc,
+      } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+      // ✅ Initialize Firebase
+      const firebaseConfig = {
+        apiKey: "AIzaSyBc6coBEXCse3FhaYK6h-31wcsDlwKUnzc",
+        authDomain: "studysphere-d6908.firebaseapp.com",
+        projectId: "studysphere-d6908",
+        storageBucket: "studysphere-d6908.appspot.com",
+        messagingSenderId: "595011447089",
+        appId: "1:595011447089:web:540703d6548990a228a810",
+      };
+      const app = initializeApp(firebaseConfig); // MUST call this first
+      const db = getFirestore(app);
+      const auth = getAuth(app);
+
+      onAuthStateChanged(auth, async (user) => {
         const welcomeMessage = document.getElementById("welcomeMessage");
         const subjectButtons = document.getElementById("subjectButtons");
         const iframe = document.getElementById("videoFrame");
         const placeholderText = document.getElementById("placeholderText");
 
-        console.log("Users:", users);
-        console.log("Current User Email:", currentUserEmail);
-        if (users && currentUserEmail) {
-          const currentUser = users.find(
-            (user) => user.email === currentUserEmail
-          );
-
-          if (currentUser) {
-            welcomeMessage.textContent = `Welcome To Your Dashboard ${currentUser.username}`;
+        if (!user) {
+          welcomeMessage.textContent = "No user logged in.";
+          return;
+        }
+        try {
+          const userDocRef = doc(db, "users", user.uid);
+          const userDocSnap = await getDoc(userDocRef);
+          if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            welcomeMessage.textContent = `Welcome To Your Dashboard ${userData.username}`;
             welcomeMessage.classList.add("animate__heartBeat");
             welcomeMessage.style.setProperty("--animate-duration", "2s");
-            if (currentUser.role === "student") {
-              subjectButtons.style.display = "flex";
-              iframe.style.display = "block";
-              placeholderText.style.display = "block";
-            } else {
-              subjectButtons.style.display = "none";
-              iframe.style.display = "none";
-              placeholderText.style.display = "none";
+            if (subjectButtons && iframe && placeholderText) {
+              if (userData.role.toLowerCase() === "student") {
+                subjectButtons.style.display = "flex";
+                iframe.style.display = "block";
+                placeholderText.style.display = "block";
+              } else {
+                subjectButtons.style.display = "none";
+                iframe.style.display = "none";
+                placeholderText.style.display = "none";
+              }
             }
           } else {
-            welcomeMessage.textContent = "User not found.";
+            welcomeMessage.textContent = "User data not found in Firestore.";
           }
-        } else {
-          welcomeMessage.textContent = "No user data available.";
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          welcomeMessage.textContent = "Failed to load user data.";
         }
-      }
+      });
+    </script>
+    <script>
       function loadVideo(videoUrl) {
-        document.getElementById("videoFrame").src = videoUrl;
-        document.getElementById("placeholderText").style.display = "none";
+        const iframe = document.getElementById("videoFrame");
+        const placeholderText = document.getElementById("placeholderText");
+        iframe.src = videoUrl;
+        iframe.style.display = "block";
+        placeholderText.style.display = "none";
       }
-      window.onload = displayUser;
+      // window.onload = displayUser;
     </script>
   </body>
 </html>
