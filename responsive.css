@@ -1,160 +1,91 @@
-/* === Mobile Devices (max-width: 767px) === */
-@media (max-width: 767px) {
-  .navbar {
-    flex-direction: row;
+/* Base (already desktop-friendly due to default styles in style.css) */
+
+/* --- Mobile Responsive Design --- */
+@media only screen and (max-width: 600px) {
+  .container {
+    width: 100vw;
+    height: 100vh;
+    background-position: center;
+    background-size: cover;
+    padding-left: 10%;
+    padding-right: 8%;
+    box-sizing: border-box;
+    overflow-x:hidden;
+  }
+  nav .navbar {
     justify-content: space-between;
     padding: 10px 20px;
-    position: relative;
   }
 
   .navbar .logo {
-    width: 35px;
     margin-left: 0;
   }
 
-  .nav-links {
+  .navbar .nav-links {
     display: none;
   }
 
   .menu-button {
     display: block;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    cursor: pointer;
-    z-index: 1001;
-  }
-
-  .nav-sidebar {
-    display: flex;
-  }
-
-  .nav-sidebar li {
-    width: 100%;
-    text-align: left;
-    margin: 10px 0;
-  }
-
-  .nav-sidebar a {
-    font-size: 16px;
-    padding: 10px;
-  }
-
-  .container {
-    padding-left: 5%;
-    padding-right: 5%;
-    background-position: center;
-    background-size: cover;
-    text-align: center;
+    font-size: 24px;
+    color: white;
+    margin-left: 80px;
   }
 
   .row {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    padding-top: 60px;
+    /* flex-direction: column; */
+    padding-top: 350px;
+    height: auto;
+    text-align: center;
+    display: flex;
   }
 
   .col {
     flex-basis: 100%;
+    padding: 10px;
   }
 
   h1 {
-    font-size: 2rem;
+    font-size: 36px;
     padding-top: 20px;
-    padding-right: 0;
+    padding-left: 60px;
   }
 
   #caption {
-    font-size: 1rem;
-    line-height: 1.4;
-    padding: 10px;
+    font-size: 16px;
+    line-height: 22px;
+    padding: 10px 20px;
   }
 
   .card {
-    width: 45%;
-    height: 160px;
-    margin: 10px 0;
-  }
-}
-
-/* === Tablets (768px to 1024px) === */
-@media (min-width: 768px) and (max-width: 1024px) {
-  .navbar {
-    padding: 15px 30px;
-  }
-
-  .nav-links {
-    display: none;
-  }
-
-  .menu-button {
-    display: block;
+    width: 125px;
+    height: 120px;
+    margin: 10px auto;
+    display: grid;
+    grid-template-columns: auto auto;
   }
 
   .nav-sidebar {
-    display: flex;
+    width: 200px;
   }
 
-  .container {
-    padding-left: 5%;
-    padding-right: 5%;
+  .nav-sidebar a {
+    font-size: 14px;
+  }
+
+  .about .content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about .textBox,
+  .about .imgBox {
+    width: 100%;
     text-align: center;
   }
 
-  .row {
-    flex-direction: column;
-    padding-top: 80px;
-  }
-
-  .col {
-    flex-basis: 100%;
-  }
-
-  h1 {
-    font-size: 2.5rem;
-    padding-right: 0;
-  }
-
-  .card {
-    width: 200px;
-    height: 200px;
-    margin: 15px auto;
-  }
-}
-
-/* === Laptops & Desktops (1025px and up) === */
-@media (min-width: 1025px) {
-  .menu-button {
-    display: none;
-  }
-
-  .nav-links {
-    display: flex;
-  }
-
-  .nav-sidebar {
-    display: none !important;
-  }
-
-  .row {
-    flex-direction: row;
-    justify-content: space-between;
-    padding-top: 100px;
-  }
-
-  .col {
-    flex-basis: 50%;
-  }
-
-  h1 {
-    font-size: 70px;
-  }
-
-  .card {
-    width: 170px;
-    height: 170px;
-    margin: 10px;
+  .about .imgBox img {
+    width: 80%;
+    max-width: 300px;
   }
 }
