@@ -21,83 +21,93 @@
     />
     <style>
       @media only screen and (max-width: 900px) {
-        /* Adjust container layout */
-        .content {
+        /* body{
+        width:100vw;
+       } */
+        nav.scrolled {
+          background-color: white;
+        }
+        nav.scrolled .nav-links a {
+          color: black !important;
+          font-weight: 500;
+        }
+        .container {
+          background-image: linear-gradient(
+              rgba(0, 0, 0, 0.5),
+              rgba(0, 0, 0, 0.5)
+            ),
+            url("./images/background.jpg");
+          /* width:100%; */
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: cover;
+        }
+        .container .row {
+          margin-bottom: 0px;
           flex-direction: column;
           align-items: center;
           text-align: center;
-          padding: 0 20px;
+          padding: 15%;
         }
-
-        .content .textBox {
-          max-width: 100%;
-          padding: 20px 0;
+        .row .col #title{
+          padding-top:0px;
+          padding-bottom:10px;
         }
-
-        .content .textBox h2,
-        .content .textBox .heading {
-          font-size: 2.5em;
-          line-height: 1.2;
+        .row .col #caption{
+          padding-top:0px;
         }
-
-        .content .textBox p {
-          font-size: 1rem;
-          color: #333;
-        }
-
-        .content .textBox a {
-          margin-top: 15px;
-          padding: 10px 25px;
-          font-size: 1rem;
-        }
-
-        .content .imgBox {
+        .container .col {
           width: 100%;
-          height: auto;
-          justify-content: center;
-          margin-top: 30px;
         }
 
-        .content .imgBox img {
-          width: 80%;
-          height: auto;
-          max-width: 300px;
+        /* Cards aligned at center */
+        .container .col:last-child {
+          display: flex;
+          /* padding-top:0%; */
+          /* flex-wrap: wrap; */
+          justify-content:center;
+          gap: 20px;
+          /* margin-top: -10px; */
         }
 
-        /* Hide the decorative background circles */
+        .container .card {
+          margin-top:0px;
+          width: 110px;
+          height: 110px;
+        }
+
+        /* Reduce font size for smaller screens */
+        #title {
+          font-size: 2em;
+        }
+
+        #caption {
+          font-size: 1.2em;
+        }
+
+        /* Hide circles on small screens */
         .circle.right,
         .circle.left {
           display: none;
         }
 
-        /* Title section adjustments */
-        .container .row {
+        /* About section responsiveness */
+        .content {
+          background-color: white;
           flex-direction: column;
+          align-items: center;
           text-align: center;
-          gap: 20px;
         }
 
-        .container .col {
-          width: 100%;
+        .imgBox {
+          justify-content: center !important;
+          margin-top: 30px !important;
         }
 
-        .container #title {
-          font-size: 2.5em;
-        }
-
-        .container #caption {
-          font-size: 1.2em;
-          margin-bottom: 20px;
-        }
-
-        /* Cards can stack or scale if needed */
-        .container .card {
-          margin: 10px auto;
-        }
-
-        /* Mobile nav spacing fix */
-        .mobile-nav {
-          padding: 10px 20px;
+        .imgBox img {
+          width: 80%;
+          max-width: 400px;
+          max-height: 300px;
         }
       }
     </style>
