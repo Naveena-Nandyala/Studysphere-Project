@@ -609,7 +609,7 @@ h2 {
 .toggle-panel.toggle-left img {
   width: 80%;
 }
-@media screen and (max-width: 650px) {
+/* @media screen and (max-width: 650px) {
   .container2 {
     height: calc(100vh - 40px);
   }
@@ -653,7 +653,7 @@ h2 {
   .container2.active .toggle-panel.toggle-right {
     bottom: 0;
   }
-}
+} */
 
 /* @media screen and (max-width: 400px) {
   .form-box {
