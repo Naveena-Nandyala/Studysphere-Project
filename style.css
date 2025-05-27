@@ -655,14 +655,14 @@ h2 {
   }
 }
 
-@media screen and (max-width: 400px) {
+/* @media screen and (max-width: 400px) {
   .form-box {
     padding: 20px;
   }
   .toggle-panel h1 {
     font-size: 30px;
   }
-}
+} */
 
 .sidebar {
   position: fixed;
