@@ -1,93 +1,32 @@
-/* Base (already desktop-friendly due to default styles in style.css) */
-
-/* --- Mobile Responsive Design --- */
-@media only screen and (max-width: 600px) {
-  .container {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-      url("images/background.jpg");
-    width: 100%;
-    height: 100vh;
-    background-position: center;
-    background-size:cover;
-    padding-left: 10%;
-    padding-right: 8%;
-    box-sizing:content-box;
-    overflow-y:visible;
-  }
-  nav .navbar {
-    justify-content: space-between;
-    padding: 10px 20px;
+/* Show full navbar on desktop, hide menu button and sidebar */
+@media screen and (min-width: 768px) {
+  .nav-links {
+    display: flex;
   }
 
-  .navbar .logo {
-    margin-left: 0;
+  .menu-button,
+  .nav-sidebar {
+    display: none !important;
   }
+}
 
-  .navbar .nav-links {
-    display: none;
+/* Show hamburger menu on mobile, hide nav-links */
+@media screen and (max-width: 767px) {
+  .nav-links {
+    display: none !important;
   }
 
   .menu-button {
     display: block;
-    font-size: 24px;
-    color: white;
-    margin-left: 80px;
-  }
-
-  .row {
-    /* flex-direction: column; */
-    padding-top: 350px;
-    height: auto;
-    text-align: center;
-    display: flex;
-  }
-
-  .col {
-    flex-basis: 100%;
-    padding: 10px;
-  }
-
-  h1 {
-    font-size: 36px;
-    padding-top: 20px;
-    padding-left: 60px;
-  }
-
-  #caption {
-    font-size: 16px;
-    line-height: 22px;
-    padding: 10px 20px;
-  }
-
-  .card {
-    width: 125px;
-    height: 120px;
-    margin: 10px auto;
-    display: grid;
-    grid-template-columns: auto auto;
+    position: absolute;
+    background-color: white;
+    top: 50px;
+    right: 30px;
+    cursor: pointer;
+    z-index: 1000;
   }
 
   .nav-sidebar {
-    width: 200px;
-  }
-
-  .nav-sidebar a {
-    font-size: 14px;
-  }
-
-  .about .content {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .about .textBox,
-  .about .imgBox {
-    width: 100%;
-    text-align: center;
-  }
-
-  .about .imgBox img {
-    width: 80%;
-    max-width: 300px;
-  }
+    display: flex; /* Will be controlled via JS toggle */
+   } 
 }

@@ -19,6 +19,88 @@
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
       rel="stylesheet"
     />
+    <style>
+      @media only screen and (max-width: 900px) {
+        /* Adjust container layout */
+        .content {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          padding: 0 20px;
+        }
+
+        .content .textBox {
+          max-width: 100%;
+          padding: 20px 0;
+        }
+
+        .content .textBox h2,
+        .content .textBox .heading {
+          font-size: 2.5em;
+          line-height: 1.2;
+        }
+
+        .content .textBox p {
+          font-size: 1rem;
+          color: #333;
+        }
+
+        .content .textBox a {
+          margin-top: 15px;
+          padding: 10px 25px;
+          font-size: 1rem;
+        }
+
+        .content .imgBox {
+          width: 100%;
+          height: auto;
+          justify-content: center;
+          margin-top: 30px;
+        }
+
+        .content .imgBox img {
+          width: 80%;
+          height: auto;
+          max-width: 300px;
+        }
+
+        /* Hide the decorative background circles */
+        .circle.right,
+        .circle.left {
+          display: none;
+        }
+
+        /* Title section adjustments */
+        .container .row {
+          flex-direction: column;
+          text-align: center;
+          gap: 20px;
+        }
+
+        .container .col {
+          width: 100%;
+        }
+
+        .container #title {
+          font-size: 2.5em;
+        }
+
+        .container #caption {
+          font-size: 1.2em;
+          margin-bottom: 20px;
+        }
+
+        /* Cards can stack or scale if needed */
+        .container .card {
+          margin: 10px auto;
+        }
+
+        /* Mobile nav spacing fix */
+        .mobile-nav {
+          padding: 10px 20px;
+        }
+      }
+    </style>
   </head>
   <body>
     <!-- Desktop Navbar -->
