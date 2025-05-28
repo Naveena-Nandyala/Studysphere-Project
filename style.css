@@ -609,8 +609,8 @@ h2 {
 .toggle-panel.toggle-left img {
   width: 80%;
 }
-@media screen and (max-width: 650px) {
-  /* .container2 {
+@media screen and (max-width: 768px) {
+  .container2 {
     height: calc(100vh - 40px);
   }
 
@@ -652,7 +652,8 @@ h2 {
   }
   .container2.active .toggle-panel.toggle-right {
     bottom: 0;
-  } */
+  }
+  */
   /* .container2 {
     width: 70%;
     height: 20%;
@@ -703,7 +704,7 @@ h2 {
 
   h2 {
     font-size: 26px;
-  } */
+  }
 }
 
 @media screen and (max-width: 400px) {
