@@ -609,55 +609,19 @@ h2 {
 .toggle-panel.toggle-left img {
   width: 80%;
 }
-@media screen and (min-width: 650px) {
-  .container2 {
-    height: calc(100vh - 40px);
-  }
-
-  .form-box {
-    background: purple;
-    bottom: 0;
-    width: 100%;
-    height: 70%;
-  }
-  .container2.active .form-box {
-    right: 0;
-    bottom: 30%;
-  }
-  .toggle-box::before {
-    width: 100%;
-    top: -270%;
-    left: 0;
-    height: 300%;
-    border-radius: 20vw;
-  }
-  .container2.active .toggle-box {
-    left: 0;
-    top: 70%;
-  }
-  .toggle-panel {
-    width: 100%;
-    height: 30%;
-  }
-  .toggle-panel.toggle-left {
-    top: 0;
-  }
-  .container2.active .toggle-panel.toggle-left {
-    left: 0;
-    top: -30%;
-  }
-  .toggle-panel.toggle-right {
-    right: 0;
-    bottom: -30%;
-  }
-  .container2.active .toggle-panel.toggle-right {
-    bottom: 0;
-  }
-
-
-}
 
 @media screen and (max-width: 400px) {
+  .form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: calc(100vh - 20px); */
+    width: 100%;
+    background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
+  }
+  .container2 {
+    height: 300px;
+  }
   .form-box {
     padding: 10px;
   }
