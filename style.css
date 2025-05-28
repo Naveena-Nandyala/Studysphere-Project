@@ -328,8 +328,7 @@ body {
   /* Stack columns vertically */
   .row {
     flex-direction: column;
-    /* align-items: center; */
-    width: 100%;
+    width: 50%;
   }
 
   .col {
@@ -343,7 +342,7 @@ body {
   }
 
   #title {
-    margin-top: -50%;
+    margin-top: 50%;
     font-size: 8vw;
     margin-left: -30%;
   }
