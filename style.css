@@ -708,8 +708,8 @@ h2 {
 
 @media screen and (max-width: 400px) {
   .container2 {
-    height: 50vh;
-    width: calc(100vw - 50px);
+    height: 40vh;
+    width: 100vw;
   }
   .radio-group {
     flex-direction: column;
@@ -729,9 +729,9 @@ h2 {
     width: 100%;
     height: 70%;
   } */
-   .form-box{
-    padding:10px;
-   }
+  .form-box {
+    padding: 10px;
+  }
   .toggle-panel h2 {
     font-size: 20px;
   }
