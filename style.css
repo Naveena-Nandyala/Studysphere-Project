@@ -240,7 +240,7 @@ body {
     width: 100vw;
   } */
   .desktop-nav {
-    visibility :hidden;
+    visibility: hidden;
   }
   .container {
     width: 100vw;
@@ -251,7 +251,7 @@ body {
 
   /* Show mobile nav */
   .mobile-nav {
-    height: 15%;
+    height: 12%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -262,7 +262,7 @@ body {
   .mobile-nav .logo-img img {
     /* padding-top:00px; */
     width: 50px;
-    height: 60px;
+    height: 40px;
   }
 
   .hamburger {
@@ -291,13 +291,13 @@ body {
   .side_navbar ul {
     background-color: grey;
     opacity: 0.9;
-    width: 6%;
+    width: 5%;
     height: 468px;
-    /* text-align: center; */
+    text-align: center;
     list-style: none;
-    margin-top: -5px;
-    margin-left: -78%;
-    padding-right: 117%;
+    margin-top: 35px;
+    margin-left: -70%;
+    padding-right: 100%;
   }
 
   .side_navbar li {
@@ -309,7 +309,7 @@ body {
     padding: 10px 10px;
     border-radius: 100px;
     transition: 0.2s;
-    margin: 0 100px;
+    margin: 0 70px;
     font-size: 15px;
     color: white;
     text-decoration: none;
@@ -342,17 +342,18 @@ body {
 
   /* Cards resize */
   .col .card {
-    visibility :hidden;
+    visibility: hidden;
   }
 
   #title {
+    margin-top: 15%;
     font-size: 8vw;
     margin-left: -20%;
   }
 
   #caption {
     font-size: 3vw;
-    padding-right: 25%;
+    padding-right: 35%;
   }
 
   .about .content {
@@ -362,12 +363,12 @@ body {
   }
 
   .imgBox {
-    width:20%;
-    height:50%;
-    padding-top:0%;
+    width: 20%;
+    height: 50%;
+    padding-top: 0%;
   }
-  .textBox{
-    margin-top:-20%;
+  .textBox {
+    margin-top: -20%;
   }
 
   .textBox a {
