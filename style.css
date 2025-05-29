@@ -309,13 +309,6 @@ body {
   .side_navbar.open {
     display: block;
   }
-  .side_navbar ul.hide {
-    transform: translateY(-100%);
-  }
-
-  .side_navbar ul.show {
-    transform: translateY(0);
-  }
 
   .side_navbar ul {
     background-color: grey;
@@ -323,8 +316,10 @@ body {
     width: 60%;
     max-width: none;
     left: auto;
+    position: fixed;
+    margin-top: 20%;
     right: 0;
-    top: 100px;
+    top: 20px;
     height: auto;
     box-sizing: border-box;
     opacity: 0.9;

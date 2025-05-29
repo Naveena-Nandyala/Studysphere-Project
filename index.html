@@ -102,28 +102,9 @@
         }
       });
       function toggleMenu() {
-        const sideNav = document.getElementById("sideNavbar");
+        const sideNav = document.querySelector(".side_navbar");
         sideNav.classList.toggle("open");
       }
-      let lastScrollTop = 0;
-      const sidebar = document.querySelector(".side_navbar ul");
-        if (window.innerWidth <= 480) {
-          let currentScroll =
-            window.scrollY || document.documentElement.scrollTop;
-
-          if (currentScroll > lastScrollTop) {
-            // Scroll Down
-            sidebar.classList.add("hide");
-            sidebar.classList.remove("show");
-          } else {
-            // Scroll Up
-            sidebar.classList.add("show");
-            sidebar.classList.remove("hide");
-          }
-
-          lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
-        }
-      });
     </script>
 
     <script src="script.js"></script>
