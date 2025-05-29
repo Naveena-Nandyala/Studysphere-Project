@@ -298,27 +298,26 @@ body {
 
   .side_navbar ul {
     background-color: grey;
-    margin: 0;
-    padding: 10px;
-    width: auto;
+    margin-left: -200px;
+    padding: 0px;
+    width: 65%;
     max-width: 100%;
     box-sizing: border-box;
     opacity: 0.9;
-    height: 100px;
+    height: 150px;
     text-align: center;
     list-style: none;
   }
 
   .side_navbar li {
     text-align: center;
-    padding: 0px 0px;
   }
 
   .side_navbar ul li a {
-    padding: 2px 5px;
+    padding: 0px 2px;
     border-radius: 100px;
     transition: 0.2s;
-    margin: 0 50px;
+    margin: 0 20px;
     font-size: 12px;
     color: white;
     text-decoration: none;
