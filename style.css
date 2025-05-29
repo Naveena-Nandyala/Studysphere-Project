@@ -101,7 +101,7 @@ body {
   height: 250px;
   text-align: center;
   list-style: none;
-  position: static;
+  position: fixed;
   left: 0; /* default left position */
   top: 150px;
   z-index: 1000;
@@ -308,6 +308,13 @@ body {
 
   .side_navbar.open {
     display: block;
+  }
+  .side_navbar ul.hide {
+    transform: translateY(-100%);
+  }
+
+  .side_navbar ul.show {
+    transform: translateY(0);
   }
 
   .side_navbar ul {
