@@ -298,9 +298,8 @@ body {
 
   .side_navbar ul {
     background-color: grey;
-    margin-left: -150px;
-    padding: 0px;
-    width: 65%;
+    margin-left: -350px;
+    width: 70%;
     max-width: 100%;
     box-sizing: border-box;
     opacity: 0.9;
