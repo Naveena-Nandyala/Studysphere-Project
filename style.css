@@ -103,7 +103,7 @@ body {
   list-style: none;
   position: fixed;
   left: 0; /* default left position */
-  top: 50px;
+  top: 150px;
   z-index: 1000;
   display: flex;
   flex-direction: column;
