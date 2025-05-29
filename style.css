@@ -101,7 +101,7 @@ body {
   height: 250px;
   text-align: center;
   list-style: none;
-  position: fixed; /* Add positioning */
+
   left: 0; /* default left position */
   top: 50px;
   z-index: 1000;
