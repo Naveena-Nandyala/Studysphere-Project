@@ -304,7 +304,7 @@ body {
     max-width: 100%;
     box-sizing: border-box;
     opacity: 0.9;
-    height: 200px;
+    height: 250px;
     text-align: center;
     list-style: none;
   }
@@ -326,7 +326,7 @@ body {
   .side_navbar li a:hover {
     color: #11101b;
     background: #fefefe;
-    width: 70px;
+    width: 90px;
     height: 30px;
   }
   .side_navbar ul li a.active {
