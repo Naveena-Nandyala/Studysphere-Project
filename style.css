@@ -105,6 +105,10 @@ body {
   left: 0; /* default left position */
   top: 50px;
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items */
+  justify-content: start; /* Optional: top-align */
 }
 
 .side_navbar li {
