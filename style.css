@@ -1785,7 +1785,7 @@ td > a {
   }
   .video-container {
     display: flex;
-    margin-top: 100%;
+    margin-top: 700px;
     position: relative;
     width: 100%;
     max-width: 100%;
