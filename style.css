@@ -1818,7 +1818,7 @@ td > a {
     display: flex;
     justify-content: space-between;
     /* margin-bottom: 20px; */
-    margin-top: 500px;
+    margin-top: 0px;
     margin-right: 50%;
   }
 
