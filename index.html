@@ -45,6 +45,7 @@
         <div class="line"></div>
       </div>
       <nav class="side_navbar" id="sideNavbar">
+        <div class="close-btn" onclick="closeMenu()">×</div>
         <ul>
           <li><a href="#home">Home</a></li>
           <li><a href="#about">About</a></li>
@@ -95,15 +96,25 @@
     <script>
       window.addEventListener("scroll", function () {
         const nav = document.querySelector(".desktop-nav"); // or use .nav-bar if that's outermost
+        const mobileNav = document.querySelector(".mobile-nav");
         if (window.scrollY > 50) {
           nav.classList.add("scrolled");
         } else {
           nav.classList.remove("scrolled");
         }
+        if (window.scrollY > 10) {
+          mobileNav.classList.add("scrolled");
+        } else {
+          mobileNav.classList.remove("scrolled");
+        }
       });
       function toggleMenu() {
-        const sideNav = document.querySelector(".side_navbar");
-        sideNav.classList.toggle("open");
+        // document.querySelector(".mobile-nav").classList.add("hidden");
+        document.getElementById("sideNavbar").classList.add("open");
+      }
+      function closeMenu() {
+        document.querySelector(".mobile-nav").classList.remove("hidden");
+        document.getElementById("sideNavbar").classList.remove("open");
       }
     </script>
 

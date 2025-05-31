@@ -66,7 +66,7 @@ body {
   display: none; /* hidden by default */
   background-color: #333;
   padding: 10px 20px;
-  position: relative;
+  /* position: absolute; */
 }
 
 .logo-img img {
@@ -78,44 +78,43 @@ body {
 .side_navbar {
   display: none;
   /* background-color: #444; */
-  position: absolute;
-  top: 60px;
+  /* top: 60px;
   left: 400px;
   width: 200px;
   border-radius: 8px;
   padding: 15px 0;
-  z-index: 1000;
+  z-index: 1000; */
 }
 
 .side_navbar.open {
+  /* position: relative; */
   display: block;
 }
 
 .side_navbar ul {
-  background-color: black;
+  background: black;
+  margin-top: -6px;
   padding-left: 0px;
-  width: 20%;
-  max-width: 50%;
+  width: 106%;
+  max-width: 120vw;
   box-sizing: border-box;
   opacity: 0.9;
-  height: 250px;
+  height: 45px;
   text-align: center;
   list-style: none;
-  position: fixed;
-  left: 0; /* default left position */
-  top: 150px;
-  z-index: 1000;
+  /* position: relative; */
+  left: 0px; /* default left position */
+  top: 0px;
+  z-index: 999;
   display: flex;
-
   /* flex-direction: column; */
-  align-items: flex-start; /* Center items */
-  /* justify-content: space-between; Optional: top-align */
+  align-items: center; /* Center items */
+  justify-content: space-around;
 }
 
 .side_navbar li {
-  padding: 10px 20px;
+  padding: 0px 25px;
 }
-
 .side_navbar li a {
   color: white;
   text-decoration: none;
@@ -124,8 +123,8 @@ body {
 
 .scrolled .nav-links a {
   color: black;
+  padding: 0;
 }
-
 /* Container with background */
 .container {
   width: 100%;
@@ -245,6 +244,14 @@ body {
   border-radius: 5px;
   text-decoration: none;
 }
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  font-size: 30px;
+  cursor: pointer;
+}
 
 /* ===== RESPONSIVE STYLES ===== */
 
@@ -276,10 +283,12 @@ body {
   .mobile-nav {
     height: 9%;
     display: flex;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
     /* margin-top: 100px; */
     background: #f4f4f4;
+    /* position: absolute; */
   }
 
   .mobile-nav .logo-img img {
@@ -308,51 +317,49 @@ body {
   }
 
   .side_navbar.open {
-    display: block;
+    display: block !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 20px !important;
+    background-color: #f9f9f9 !important;
+    padding-top: 45px !important;
+    z-index: 9999 !important;
+    text-align: center !important;
   }
 
   .side_navbar ul {
-    /* background-color: grey; */
-    padding-left: 0px;
-    width: 100%;
-    max-width: none;
-    left: 0px;
-    position: fixed;
-    margin-top: 7%;
-    right: 0;
-    top: 20px;
-    height: 50px;
-    box-sizing: border-box;
-    opacity: 0.9;
-    /* height: 250px; */
+    margin: 10px;
     text-align: center;
+    padding-right: 20px;
     list-style: none;
   }
-
-  .side_navbar li {
-    text-align: center;
-    padding-left: 2px;
+  .side_navbar ul li {
+    padding-left: 0px;
+    margin: 0px 0;
     /* display: flex;
     justify-content: flex-start; */
   }
 
   .side_navbar ul li a {
-    padding: 10px 10px;
+    background: black;
+    padding: 10px 20px;
     border-radius: 100px;
     /* transition: 0.2s; */
-    margin: 0 0px;
     font-size: 9px;
     color: white;
     text-decoration: none;
     display: block;
   }
-  .side_navbar li a:hover {
-    color: #11101b;
-    background: #fefefe;
-  }
   .side_navbar ul li a.active {
     color: #11101b;
     background: #fefefe;
+  }
+
+  /* Hide the header when menu is open */
+  .mobile-nav.hidden {
+    display: none;
   }
   /* Stack columns vertically */
   .row {
@@ -362,7 +369,7 @@ body {
   }
 
   .col {
-    margin-top: -20%;
+    margin-top: -10%;
     height: 100px;
     width: 100% !important;
     /* flex: none; */
@@ -374,8 +381,8 @@ body {
   }
 
   #title {
-    padding-top: 10px;
-    padding-left: 10px;
+    padding-top: 0px;
+    padding-left: 0px;
     /* margin-top: 50%; */
     font-size: 20px;
     /* margin-left: 10%; */
@@ -383,7 +390,7 @@ body {
 
   #caption {
     font-size: 8px;
-    padding-right: 20%;
+    padding-right: 35%;
   }
 
   .about .content {
@@ -393,6 +400,7 @@ body {
   }
 
   .imgBox {
+    height:50%;
     width: 100%;
     max-width: 100%;
   }
