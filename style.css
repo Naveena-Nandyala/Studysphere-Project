@@ -142,6 +142,9 @@ body {
   color: white;
   text-align: center;
 }
+.close-btn{
+  padding-top:10px;
+}
 
 .card1 {
   background-image: url("images/pic-1.jpg");
@@ -319,7 +322,7 @@ body {
   .side_navbar.open {
     display: block !important;
     position: fixed !important;
-    top: 0 !important;
+    top: 0px !important;
     left: 0 !important;
     width: 100vw !important;
     height: 30px !important;
@@ -343,6 +346,7 @@ body {
   }
 
   .side_navbar ul li a {
+    margin-top:15px;
     background: black;
     padding: 10px 20px;
     border-radius: 100px;
