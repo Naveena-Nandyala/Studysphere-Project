@@ -1787,10 +1787,10 @@ td > a {
   }
   .video-container {
     margin-top: 100px;
-    margin-left: -80px;
+    margin-left: 0px;
     padding-left: 50px;
     position: relative;
-    width: 900px;
+    width: 500px;
     max-width: 100%;
     padding-top: 0%;
     height: 20px;
