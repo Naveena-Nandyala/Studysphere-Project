@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile Settings</title>
-    <!-- <link rel="stylesheet" href="style.css" /> -->
     <style>
       body {
         width: 100vw;
@@ -113,14 +112,12 @@
       }
       #profileDetails {
         padding: 0px 60px;
-        /* margin-left:30px; */
       }
       @media screen and (max-width: 480px) {
         .settings-container {
           margin-top: 150px;
           width: 250px;
           height: 20px;
-          /* margin: auto; */
         }
         .form-container {
           background: #fff;
@@ -141,7 +138,7 @@
         }
         .input-group {
           padding: 0px;
-          /* margin-bottom: 10px; */
+
           display: flex;
           align-items: center;
         }
@@ -154,7 +151,6 @@
           font-size: 8px;
         }
         .profile-heading {
-          /* margin-left:-20px; */
           padding-top: 20px;
           font-size: 15px;
           font-weight: 600;
@@ -171,7 +167,6 @@
           align-items: center;
         }
         #role-group label {
-          /* padding-left:-50px; */
           white-space: nowrap;
           width: 50px;
         }
@@ -217,7 +212,6 @@
         #profileDetails {
           font-size: 12px;
           padding: 0px 0px 0px 10px;
-          /* margin-left:30px; */
         }
       }
     </style>
@@ -255,10 +249,7 @@
             <label>ENTER ID:</label>
             <input type="text" id="idField" />
           </div>
-          <!-- <div class="input-group" id="rollGroup" style="display: none">
-            <label>ROLL NUMBER:</label>
-            <input type="text" id="rollNumber" />
-          </div> -->
+
           <div class="input-group">
             <label>QUALIFICATION:</label>
             <input
@@ -306,7 +297,6 @@
       const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
       const db = getFirestore(app);
-      // const storage = getStorage(app);
 
       const profileFormContainer = document.getElementById(
         "profileFormContainer"
@@ -319,27 +309,21 @@
       const roleField = document.getElementById("role");
       const subjectGroup = document.getElementById("subjectGroup");
       const idGroup = document.getElementById("idGroup");
-      // const rollGroup = document.getElementById("rollGroup");
-      // const profilePicInput = document.getElementById("profilePic");
 
       let currentUser = null;
       let currentUserEmail = null;
-      // let profilePicURL = "";
 
       // Role selection logic
       roleField.addEventListener("change", () => {
         if (roleField.value === "Tutor") {
           subjectGroup.style.display = "flex";
           idGroup.style.display = "flex";
-          // rollGroup.style.display = "none";
         } else if (roleField.value === "Student") {
           subjectGroup.style.display = "none";
           idGroup.style.display = "none";
-          // rollGroup.style.display = "flex";
         } else {
           subjectGroup.style.display = "none";
           idGroup.style.display = "none";
-          // rollGroup.style.display = "none";
         }
       });
 
@@ -377,7 +361,7 @@
         const role = document.getElementById("role").value;
         const subject = document.getElementById("subject").value;
         const idField = document.getElementById("idField").value;
-        // const rollNumber = document.getElementById("rollNumber").value;
+
         const qualification = document.getElementById("qualification").value;
 
         const profileData = {
@@ -387,7 +371,7 @@
           role,
           subject,
           idField,
-          // rollNumber,
+
           qualification,
         };
 
@@ -420,8 +404,7 @@
           document.getElementById("role").value = userData.role || "";
           document.getElementById("subject").value = userData.subject || "";
           document.getElementById("idField").value = userData.idField || "";
-          // document.getElementById("rollNumber").value =
-          //   userData.rollNumber || "";
+
           document.getElementById("qualification").value =
             userData.qualification || "";
 
