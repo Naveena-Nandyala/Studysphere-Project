@@ -1786,13 +1786,13 @@ td > a {
     animation: heartBeat 2s ease-in-out infinite;
   }
   .video-container {
-    margin-top: 700px;
-    margin-left: -500px;
+    margin-top: 400px;
+    margin-left: -300px;
     position: relative;
     width: 80%;
     max-width: 100%;
     padding-top: 0%;
-    height: 50%;
+    height: 30%;
   }
 
   #placeholderText {
