@@ -1787,12 +1787,13 @@ td > a {
   }
   .video-container {
     margin-top: 100px;
-    margin-left: 0px;
+    /* margin-left: 80px; */
+    padding-left: 50px;
     position: relative;
     width: 900px;
     /* max-width: 100%; */
     padding-top: 0%;
-    height: 50px;
+    height: 200px;
   }
 
   #placeholderText {
@@ -1851,7 +1852,7 @@ td > a {
     /* margin-right: 10%; */
     position: absolute;
     width: 100%;
-    height: 90%;
+    height: 70%;
     border: none;
     border-radius: 50px;
     /* box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); */
