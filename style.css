@@ -1849,7 +1849,7 @@ td > a {
 
   #videoFrame {
     margin-top: 40%;
-    /* margin-right: 10%; */
+    margin-left: -80%;
     position: absolute;
     width: 100%;
     height: 70%;
