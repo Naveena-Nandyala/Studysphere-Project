@@ -1034,9 +1034,10 @@ h2 {
   }
 
   .sidebar.active ul li .tooltip {
-    display: none;
+    visibility: hidden;
   }
   .sidebar ul li:hover .tooltip {
+    visibility: hidden;
     transition: all 0.5s ease;
     opacity: 1;
     top: 10%;
