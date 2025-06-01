@@ -1787,31 +1787,16 @@ td > a {
   }
   .video-container {
     margin-top: 100px;
-    /* margin-left: 80px; */
+    margin-left: 80px;
     padding-left: 50px;
     position: relative;
     width: 900px;
-    /* max-width: 100%; */
+    max-width: 100%;
     padding-top: 0%;
-    height: 200px;
+    height: 20px;
   }
-
   #placeholderText {
-    margin-left: -70px;
-    position: relative;
-    padding-top: 100%;
-    left: 0%;
-    width: 100%;
-    height: 100%;
-    color: white;
-    font-weight: 600;
-    letter-spacing: 2px;
-    font-size: 10px;
-    font-family: "Lobster", sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
+    visibility: hidden;
   }
   .subject-buttons {
     display: flex;
@@ -1849,10 +1834,10 @@ td > a {
 
   #videoFrame {
     margin-top: 40%;
-    margin-left: -80%;
+    margin-left: -100px;
     position: absolute;
-    width: 100%;
-    height: 70%;
+    width: 200px;
+    height: 200px;
     border: none;
     border-radius: 50px;
     /* box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); */
