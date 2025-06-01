@@ -1797,7 +1797,7 @@ td > a {
   }
 
   #placeholderText {
-    /* margin-left: -70px; */
+    margin-left: -70px;
     position: relative;
     padding-top: 100%;
     left: 0%;
