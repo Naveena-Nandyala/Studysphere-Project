@@ -1833,8 +1833,8 @@ td > a {
   }
 
   #videoFrame {
-    margin-top: 200%;
-    margin-left: -200px;
+    margin-top: 150%;
+    margin-left: -150px;
     position: absolute;
     width: 200px;
     height: 200px;
