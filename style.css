@@ -1787,7 +1787,7 @@ td > a {
   }
   .video-container {
     margin-top: 100px;
-    margin-left: 80px;
+    margin-left: -80px;
     padding-left: 50px;
     position: relative;
     width: 900px;
