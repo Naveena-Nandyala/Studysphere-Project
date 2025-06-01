@@ -1786,7 +1786,6 @@ td > a {
     animation: heartBeat 2s ease-in-out infinite;
   }
   .video-container {
-    display: flex;
     /* margin-top: 700px; */
     position: relative;
     width: 80%;
@@ -1812,19 +1811,20 @@ td > a {
     z-index: 2;
   }
   .subject-buttons {
-    /* margin-bottom: 20px; */
+    display: flex;
+    flex-direction: column;
+    /* grid-template-columns:auto auto auto; */
     margin-top: 90px;
-    margin-left: -10%;
   }
 
   .video-btn {
     border-radius: 5px;
     /* position: transform; */
-    padding: 20px 10px 25px 10px;
+    padding: 5px 5px 10px 5px;
     outline: none;
-    width: 70px;
+    width: 60px;
     height: 20px;
-    margin-bottom: 0%;
+    /* margin-bottom:4px; */
     /* margin-left:10px;
     margin-right:0px; */
     cursor: pointer;
@@ -1841,10 +1841,11 @@ td > a {
   .video-btn:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
     z-index: 10;
-    transform: translateY(-10px);
+    transform: translateY(-5px);
   }
 
   #videoFrame {
+    margin-top: 60%;
     /* margin-right: 10%; */
     position: absolute;
     width: 100%;
