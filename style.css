@@ -1991,6 +1991,76 @@ td > a {
   background: #ff9393;
 }
 
+@media screen and (max-width:480px){
+  .app {
+  background: #fff;
+  width: 70%;
+  max-width: 600px;
+  margin: 80px auto 0;
+  border-radius: 10px;
+  padding: 30px;
+}
+
+.app h1 {
+  font-size: 10px;
+  color: #001e4d;
+  font-weight: 600;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+  padding-top: 0px;
+  /* padding-right: 150px; */
+}
+
+.quiz {
+  padding: 20px 0;
+}
+.quiz h2 {
+  font-size: 10px;
+  color: #001e4d;
+  font-weight: 600;
+}
+
+.quiz-btn {
+  background: #fff;
+  color: #222;
+  font-weight: 500;
+  width: 100%;
+  border: 1px solid #222;
+  padding: 5px;
+  margin: 15px 0px 0px 0px;
+  text-align: left;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.quiz-btn:hover:not([disabled]) {
+  background: #222;
+  color: #fff;
+}
+.quiz-btn:disabled {
+  cursor: no-drop;
+}
+.next-btn {
+  background: #001e4d;
+  color: #fff;
+  font-weight: 500;
+  width: 100px;
+  border: 0;
+  padding: 10px;
+  margin: 20px auto 0;
+  border-radius: 4px;
+  cursor: pointer;
+  display: none;
+}
+
+.correct {
+  background: #9aeabc;
+}
+.incorrect {
+  background: #ff9393;
+}
+}
 /* -----------------------Test.html--------------------- */
 
 #test-heading {
