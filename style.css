@@ -415,6 +415,7 @@ body {
     border-radius: 6px;
   }
   .footer {
+    margin-top: 40px;
     color: white;
     background: #4e34b6;
     display: flex;
