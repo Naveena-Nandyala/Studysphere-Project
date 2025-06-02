@@ -396,11 +396,7 @@ body {
     flex-direction: column;
     font-size: 15px;
   }
-  .imgBox {
-    height: 20px;
-  }
-
-  .imgBox.img {
+  .imgBox.image {
     /* margin-top:20px; */
     height: 20px;
     width: 50px;
