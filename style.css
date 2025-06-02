@@ -397,14 +397,10 @@ body {
     font-size: 15px;
   }
 
-  .imgBox {
-    height: 50px;
+  .imgBox.img {
+    /* margin-top:20px; */
+    height: 20px;
     width: 50px;
-    max-width: 100%;
-  }
-  .imgBox img {
-    width: 50px;
-    height: 50px;
   }
   .textBox {
     margin-top: -20%;
