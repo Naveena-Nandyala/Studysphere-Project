@@ -399,8 +399,12 @@ body {
 
   .imgBox {
     height: 50px;
-    width: 200px;
+    width: 50px;
     max-width: 100%;
+  }
+  .imgBox img {
+    width: 50px;
+    height: 50px;
   }
   .textBox {
     margin-top: -20%;
